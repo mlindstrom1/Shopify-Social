@@ -32,20 +32,12 @@ export default defineConfig(({ command }) => {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },
-          chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: (assetInfo) => {
-            const info = assetInfo.name.split('.')
-            const ext = info[info.length - 1]
-            if (assetInfo.name === 'vite.svg') {
-              return '[name][extname]'
-            }
-            if (/\.(png|jpe?g|gif|svg|ico)$/.test(assetInfo.name)) {
-              return `assets/images/[name]-[hash][extname]`
-            }
-            return `assets/[name]-[hash][extname]`
-          }
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[hash].[ext]'
         },
       },
+      sourcemap: true,
     },
     base,
     publicDir: 'public',
