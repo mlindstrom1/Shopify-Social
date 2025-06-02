@@ -10,7 +10,6 @@ export default defineConfig(({ command }) => {
     plugins: [react()],
     define: {
       global: 'globalThis',
-      'process.env.BASE_URL': JSON.stringify(base),
     },
     optimizeDeps: {
       esbuildOptions: {
@@ -26,6 +25,12 @@ export default defineConfig(({ command }) => {
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
+          },
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name === 'vite.svg') {
+              return '[name][extname]'
+            }
+            return 'assets/[name]-[hash][extname]'
           },
         },
       },
