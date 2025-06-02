@@ -32,14 +32,28 @@ export default defineConfig(({ command }) => {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },
-          entryFileNames: 'assets/[name].[hash].js',
-          chunkFileNames: 'assets/[name].[hash].js',
-          assetFileNames: 'assets/[name].[hash].[ext]'
+          entryFileNames: (assetInfo) => {
+            return `assets/[name].[hash].js`
+          },
+          chunkFileNames: (assetInfo) => {
+            return `assets/[name].[hash].js`
+          },
+          assetFileNames: (assetInfo) => {
+            return `assets/[name].[hash].[ext]`
+          }
         },
       },
       sourcemap: true,
     },
     base,
+    experimental: {
+      renderBuiltUrl(filename: string, { hostType, type }) {
+        if (type === 'public') {
+          return `${base}${filename}`
+        }
+        return `${base}${filename}`
+      }
+    },
     publicDir: 'public',
   }
 })
