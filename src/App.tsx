@@ -8,10 +8,11 @@ import { useState } from 'react'
 const App = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const bgColor = useColorModeValue('gray.50', 'gray.900')
+  const basename = import.meta.env.PROD ? '/Shopify-Social' : '/'
 
   return (
     <ChakraProvider>
-      <Router basename="/Shopify-Social">
+      <Router basename={basename}>
         <Box 
           minHeight="100vh"
           height="100vh"

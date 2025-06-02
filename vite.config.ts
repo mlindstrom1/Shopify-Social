@@ -24,5 +24,5 @@ export default defineConfig({
     },
     assetsDir: 'assets',
   },
-  base: '/Shopify-Social/',
+  base: process.env.NODE_ENV === 'production' ? '/Shopify-Social/' : '/',
 })
