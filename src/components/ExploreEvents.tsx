@@ -1,27 +1,21 @@
 import {
   Box,
   VStack,
-  Container,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Input,
   IconButton,
   Icon,
-  HStack,
   Select,
   SimpleGrid,
   useColorModeValue,
-  Heading,
   Text,
   Tabs,
   TabList,
   Tab,
   TabPanels,
-  TabPanel,
-  Button,
-  Image,
-  Avatar
+  TabPanel
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
@@ -32,21 +26,6 @@ interface ExploreEventsProps {
   events: Event[];
 }
 
-const eventTypes = [
-  'All Types',
-  'Social',
-  'Workshop',
-  'Professional',
-  'Games',
-  'Sports',
-  'Arts',
-  'Crafts',
-  'Food',
-  'Music',
-  'Outdoors',
-  'Wellness'
-];
-
 const locations = [
   'All Locations',
   'Toronto, ON',
@@ -56,19 +35,10 @@ const locations = [
   'Boston, MA'
 ];
 
-const dates = [
-  'All Dates',
-  'Today',
-  'This Week',
-  'This Month',
-  'Next Month'
-];
-
 const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [eventType, setEventType] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
-  const [selectedDate, setSelectedDate] = useState('All Dates');
   const [sortBy, setSortBy] = useState('date-asc');
 
   const clearSearch = () => setSearchTerm('');
@@ -78,8 +48,7 @@ const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
                          event.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = eventType === 'all' || event.type.toLowerCase() === eventType.toLowerCase();
     const matchesLocation = selectedLocation === 'All Locations' || event.location.includes(selectedLocation);
-    const matchesDate = selectedDate === 'All Dates' || true; // TODO: Implement date filtering
-    return matchesSearch && matchesType && matchesLocation && matchesDate;
+    return matchesSearch && matchesType && matchesLocation;
   });
 
   const upcomingEvents = filteredEvents.filter(event => !isEventPast(event));
