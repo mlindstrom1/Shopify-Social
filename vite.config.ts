@@ -28,20 +28,21 @@ export default defineConfig(({ command }) => {
       outDir: 'dist',
       assetsDir: 'assets',
       rollupOptions: {
-        input: {
-          index: resolve(__dirname, 'index.html'),
-        },
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },
-          entryFileNames: 'assets/[name].js',
           chunkFileNames: 'assets/[name]-[hash].js',
           assetFileNames: (assetInfo) => {
+            const info = assetInfo.name.split('.')
+            const ext = info[info.length - 1]
             if (assetInfo.name === 'vite.svg') {
-              return '[name][extname]';
+              return '[name][extname]'
             }
-            return 'assets/[name]-[hash][extname]';
+            if (/\.(png|jpe?g|gif|svg|ico)$/.test(assetInfo.name)) {
+              return `assets/images/[name]-[hash][extname]`
+            }
+            return `assets/[name]-[hash][extname]`
           }
         },
       },
