@@ -37,9 +37,14 @@ jobs:
           cd dist
           cp index.html 404.html
           touch .nojekyll
-          find . -type f -name "*.html" -exec sed -i 's|src="/|src="/Shopify-Social/|g' {} +
-          find . -type f -name "*.html" -exec sed -i 's|href="/|href="/Shopify-Social/|g' {} +
-          find . -type f -name "*.js" -exec sed -i 's|"/assets/|"/Shopify-Social/assets/|g' {} +
+          # Transform all absolute paths to use the repository base
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|="/assets/|="/Shopify-Social/assets/|g' {} +
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|="/Shopify-Social/assets/|="/Shopify-Social/assets/|g' {} +
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|href="/assets/|href="/Shopify-Social/assets/|g' {} +
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|src="/assets/|src="/Shopify-Social/assets/|g' {} +
+          # Check the final result
+          echo "Final index.html content:"
+          cat index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
