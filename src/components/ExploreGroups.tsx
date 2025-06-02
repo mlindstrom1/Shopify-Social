@@ -5,19 +5,14 @@ import {
   InputLeftElement,
   SimpleGrid,
   Select,
-  HStack,
   VStack,
   Text,
   useColorModeValue,
-  Heading,
   Icon,
   InputRightElement,
   IconButton,
-  Button,
-  Badge,
-  Image,
 } from '@chakra-ui/react'
-import { FaSearch, FaTimes, FaUsers, FaLaptopCode, FaBriefcase, FaGraduationCap, FaDice, FaRunning, FaCode, FaGamepad, FaPalette, FaBook, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaSearch, FaTimes, FaUsers, FaBriefcase, FaRunning, FaCode, FaGamepad, FaPalette } from 'react-icons/fa'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GroupCard from './GroupCard'
