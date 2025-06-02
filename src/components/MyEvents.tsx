@@ -1,18 +1,13 @@
 import {
   Box,
   VStack,
-  Container,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
   Input,
-  IconButton,
   Icon,
-  HStack,
   Select,
   SimpleGrid,
   useColorModeValue,
-  Heading,
   Tabs,
   TabList,
   Tab,
@@ -21,7 +16,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { FaSearch, FaTimes } from 'react-icons/fa'
+import { FaSearch } from 'react-icons/fa'
 import EventCard from './EventCard'
 import { Event, isEventPast } from './events'
 
@@ -31,11 +26,11 @@ interface MyEventsProps {
   dates: string[];
 }
 
-const MyEvents = ({ events, locations, dates }: MyEventsProps) => {
+const MyEvents = ({ events, locations }: MyEventsProps) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [eventType, setEventType] = useState('all')
   const [selectedLocation, setSelectedLocation] = useState('All Locations')
-  const [selectedDate, setSelectedDate] = useState('All Dates')
+  const [selectedDate] = useState('All Dates')
   const [sortBy, setSortBy] = useState('date-asc')
 
   const filteredEvents = events.filter(event => {
@@ -54,9 +49,6 @@ const MyEvents = ({ events, locations, dates }: MyEventsProps) => {
   const pastEvents = filteredEvents
     .filter(event => isEventPast(event))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  // Combine all events with upcoming events first
-  const allEvents = [...upcomingEvents, ...pastEvents];
 
   return (
     <Box width="100%" minH="100%" pb={8}>

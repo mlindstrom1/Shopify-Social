@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   VStack,
@@ -15,10 +16,12 @@ import {
   TabList,
   Tab,
   TabPanels,
-  TabPanel
+  TabPanel,
+  Button,
+  HStack,
+  Badge
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { FaSearch, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaTimes, FaFilter } from 'react-icons/fa';
 import EventCard from './EventCard';
 import { Event, isEventPast } from './events';
 
@@ -35,18 +38,41 @@ const locations = [
   'Boston, MA'
 ];
 
+const eventTypes = [
+  'All Types',
+  'Workshop',
+  'Social',
+  'Professional',
+  'Games',
+  'Sports',
+  'Arts',
+  'Crafts',
+  'Food',
+  'Music',
+  'Outdoors',
+  'Wellness'
+];
+
 const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [eventType, setEventType] = useState('all');
+  const [eventType, setEventType] = useState('All Types');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [sortBy, setSortBy] = useState('date-asc');
+  const [showFilters, setShowFilters] = useState(true);
+  const [activeFilters, setActiveFilters] = useState(0);
 
   const clearSearch = () => setSearchTerm('');
+  const clearFilters = () => {
+    setEventType('All Types');
+    setSelectedLocation('All Locations');
+    setSortBy('date-asc');
+    setActiveFilters(0);
+  };
 
   const filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = eventType === 'all' || event.type.toLowerCase() === eventType.toLowerCase();
+    const matchesType = eventType === 'All Types' || event.type === eventType;
     const matchesLocation = selectedLocation === 'All Locations' || event.location.includes(selectedLocation);
     return matchesSearch && matchesType && matchesLocation;
   });
@@ -54,10 +80,36 @@ const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
   const upcomingEvents = filteredEvents.filter(event => !isEventPast(event));
   const pastEvents = filteredEvents.filter(event => isEventPast(event));
 
-  // Sort events by date
-  const sortedUpcomingEvents = [...upcomingEvents].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  const sortedPastEvents = [...pastEvents].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  // Sort events
+  const sortEvents = (eventsToSort: Event[]) => {
+    return [...eventsToSort].sort((a, b) => {
+      switch (sortBy) {
+        case 'date-asc':
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        case 'date-desc':
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        case 'title-asc':
+          return a.title.localeCompare(b.title);
+        case 'title-desc':
+          return b.title.localeCompare(a.title);
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const sortedUpcomingEvents = sortEvents(upcomingEvents);
+  const sortedPastEvents = sortEvents(pastEvents);
   const allEvents = [...sortedUpcomingEvents, ...sortedPastEvents];
+
+  // Update active filters count
+  useEffect(() => {
+    let count = 0;
+    if (eventType !== 'All Types') count++;
+    if (selectedLocation !== 'All Locations') count++;
+    if (sortBy !== 'date-asc') count++;
+    setActiveFilters(count);
+  }, [eventType, selectedLocation, sortBy]);
 
   return (
     <Box width="100%" minH="100%" pb={8}>
@@ -86,51 +138,60 @@ const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
             )}
           </InputGroup>
 
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
-            <Select
-              value={eventType}
-              onChange={(e) => setEventType(e.target.value)}
-              placeholder="Event Type"
-              size="lg"
+          <HStack mb={4} justify="space-between">
+            <Button
+              leftIcon={<Icon as={FaFilter} />}
+              onClick={() => setShowFilters(!showFilters)}
+              variant="ghost"
+              size="sm"
             >
-              <option value="all">All Types</option>
-              <option value="Workshop">Workshop</option>
-              <option value="Social">Social</option>
-              <option value="Professional">Professional</option>
-              <option value="Games">Games</option>
-              <option value="Sports">Sports</option>
-              <option value="Arts">Arts</option>
-              <option value="Crafts">Crafts</option>
-              <option value="Food">Food</option>
-              <option value="Music">Music</option>
-              <option value="Outdoors">Outdoors</option>
-              <option value="Wellness">Wellness</option>
-            </Select>
+              Filters {activeFilters > 0 && <Badge ml={2} colorScheme="blue">{activeFilters}</Badge>}
+            </Button>
+            {activeFilters > 0 && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={clearFilters}
+              >
+                Clear All
+              </Button>
+            )}
+          </HStack>
 
-            <Select
-              value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              placeholder="Location"
-              size="lg"
-            >
-              <option value="all">All Locations</option>
-              {locations.map(location => (
-                <option key={location} value={location}>{location}</option>
-              ))}
-            </Select>
+          {showFilters && (
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+              <Select
+                value={eventType}
+                onChange={(e) => setEventType(e.target.value)}
+                size="lg"
+              >
+                {eventTypes.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </Select>
 
-            <Select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              placeholder="Sort By"
-              size="lg"
-            >
-              <option value="date-asc">Date (Earliest First)</option>
-              <option value="date-desc">Date (Latest First)</option>
-              <option value="title-asc">Title (A-Z)</option>
-              <option value="title-desc">Title (Z-A)</option>
-            </Select>
-          </SimpleGrid>
+              <Select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                size="lg"
+              >
+                {locations.map(location => (
+                  <option key={location} value={location}>{location}</option>
+                ))}
+              </Select>
+
+              <Select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                size="lg"
+              >
+                <option value="date-asc">Date (Earliest First)</option>
+                <option value="date-desc">Date (Latest First)</option>
+                <option value="title-asc">Title (A-Z)</option>
+                <option value="title-desc">Title (Z-A)</option>
+              </Select>
+            </SimpleGrid>
+          )}
         </Box>
 
         <Tabs variant="soft-rounded" colorScheme="green">

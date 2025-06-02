@@ -1,5 +1,4 @@
 import {
-  Box,
   Text,
   Button,
   Modal,
@@ -14,8 +13,7 @@ import {
   Input,
   useDisclosure,
   HStack,
-  Icon,
-  useColorModeValue
+  Icon
 } from '@chakra-ui/react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { useState } from 'react'
@@ -25,7 +23,7 @@ interface LocationIndicatorProps {
 }
 
 const LocationIndicator = ({ initialLocation = "Toronto/Canada" }: LocationIndicatorProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onClose } = useDisclosure()
   const [location, setLocation] = useState(initialLocation)
   const [tempLocation, setTempLocation] = useState(location)
   
@@ -33,9 +31,6 @@ const LocationIndicator = ({ initialLocation = "Toronto/Canada" }: LocationIndic
     setLocation(tempLocation)
     onClose()
   }
-
-  const linkColor = useColorModeValue('blue.500', 'blue.300')
-  const iconColor = useColorModeValue('gray.500', 'gray.400')
 
   return (
     <>

@@ -18,13 +18,12 @@ import {
   Icon,
   useColorModeValue,
   Divider,
-  Flex,
   AvatarGroup,
 } from '@chakra-ui/react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { FaUsers, FaMapMarkerAlt, FaClock, FaShare, FaCalendar, FaLock, FaHeart, FaComment } from 'react-icons/fa'
+import { useParams } from 'react-router-dom'
+import { FaUsers, FaMapMarkerAlt, FaClock, FaShare, FaLock, FaHeart, FaComment } from 'react-icons/fa'
 import EventCard from './EventCard'
-import { Event, isEventPast } from './events'
+import { isEventPast } from './events'
 import { allEvents } from './events'
 import { exploreGroups } from './ExploreGroups'
 
@@ -43,19 +42,6 @@ interface Post {
   likes: number;
   comments: number;
   images?: string[];
-}
-
-interface GroupDetailsProps {
-  id: string;
-  name: string;
-  description: string;
-  members: number;
-  category: string;
-  image: string;
-  location: string;
-  meetingFrequency: string;
-  organizer: string;
-  guidelines?: string[];
 }
 
 const getGroupCategoryColor = (category: string) => {
@@ -95,7 +81,6 @@ const getRoleBadgeProps = (role: string) => {
 
 const GroupDetails = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
   const bgColor = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
 

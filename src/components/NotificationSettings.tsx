@@ -58,14 +58,14 @@ const NotificationSettings: React.FC = () => {
           </Text>
           <VStack spacing={4} align="stretch">
             {Object.entries(emailNotifications).map(([key, value]) => (
-              <HStack key={key} justify="space-between">
-                <Text>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Text>
+              <FormControl key={key} display="flex" alignItems="center">
+                <FormLabel mb="0">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</FormLabel>
                 <Switch
                   isChecked={value}
                   onChange={() => toggleEmailNotification(key as keyof typeof emailNotifications)}
                   colorScheme="blue"
                 />
-              </HStack>
+              </FormControl>
             ))}
           </VStack>
         </Box>
@@ -76,14 +76,14 @@ const NotificationSettings: React.FC = () => {
           </Text>
           <VStack spacing={4} align="stretch">
             {Object.entries(pushNotifications).map(([key, value]) => (
-              <HStack key={key} justify="space-between">
-                <Text>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Text>
+              <FormControl key={key} display="flex" alignItems="center">
+                <FormLabel mb="0">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</FormLabel>
                 <Switch
                   isChecked={value}
                   onChange={() => togglePushNotification(key as keyof typeof pushNotifications)}
                   colorScheme="blue"
                 />
-              </HStack>
+              </FormControl>
             ))}
           </VStack>
         </Box>

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Container,
   VStack,
   HStack,
   Heading,
@@ -11,139 +10,27 @@ import {
   useColorModeValue,
   Tabs,
   TabList,
-  Tab,
-  Text,
-  Avatar,
-  Divider,
-  Spacer,
-  Badge,
-  Image,
-  Flex
+  Tab
 } from '@chakra-ui/react'
 import { useLocation, useNavigate, Outlet } from 'react-router-dom'
 import { useState } from 'react'
-import { FaArrowRight, FaUsers, FaUserPlus, FaCalendarCheck, FaCamera, FaComment, FaThumbsUp, FaShare, FaSlack } from 'react-icons/fa'
-import { allEvents, isEventPast } from './events'
+import { FaArrowRight } from 'react-icons/fa'
+import { allEvents, isEventPast } from '../components/events'
+import { Group } from '../components/ExploreGroups'
 import HeroSection from './HeroSection'
 import EventCard from './EventCard'
 import LocationSelector from './LocationSelector'
 import GroupCard from './GroupCard'
-import { Activity } from '../types/Activity'
-import FeedPost from './FeedPost'
-import { format } from 'date-fns'
+import ActivityFeed from './ActivityFeed'
+import CreateEventButton from './CreateEventButton'
 
 interface SectionContentProps {
   path: string;
   children?: React.ReactNode;
 }
 
-const sections: Record<string, { name: string; tabs: string[]; paths?: string[] }> = {
-  '/home': {
-    name: 'Home',
-    tabs: ['For You', 'Following', 'Trending', 'Activity'],
-    paths: ['', 'following', 'trending', 'activity']
-  },
-  '/events': {
-    name: 'Events',
-    tabs: ['Explore Events', 'My Events', 'Create Event'],
-    paths: ['explore-events', 'my-events', 'create-event']
-  },
-  '/groups': {
-    name: 'Groups',
-    tabs: ['Explore Groups', 'My Groups', 'Create Group'],
-    paths: ['explore-groups', 'my-groups', 'create-group']
-  },
-  '/activity-feed': {
-    name: 'Activity Feed',
-    tabs: ['All Activity', 'Groups', 'Events'],
-    paths: ['all', 'groups', 'events']
-  },
-  '/settings': {
-    name: 'Settings',
-    tabs: ['General', 'Security & Privacy', 'Notifications'],
-    paths: ['general', 'security-privacy', 'notifications']
-  }
-};
-
-// Mock data interface
-interface FeedActivity {
-  id: string;
-  type: 'join' | 'photo' | 'event';
-  user: {
-    name: string;
-    avatar: string;
-  };
-  group?: {
-    name: string;
-    image: string;
-  };
-  content?: string;
-  timestamp: string;
-  privacy: 'Public' | 'Members Only';
-  photos?: string[];
-  source?: {
-    type: 'slack';
-  };
-}
-
-// Mock data for the activity feed
-const mockActivities: FeedActivity[] = [
-  {
-    id: '1',
-    type: 'join',
-    user: {
-      name: 'Sarah Chen',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'
-    },
-    group: {
-      name: 'Toronto Tech Meetup',
-      image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800'
-    },
-    content: 'Just joined the Toronto Tech Meetup group! Looking forward to connecting with fellow developers.',
-    timestamp: new Date(Date.now() - 3600000).toISOString(),
-    privacy: 'Public',
-    source: {
-      type: 'slack'
-    }
-  },
-  {
-    id: '7',
-    type: 'photo',
-    user: {
-      name: 'James Wilson',
-      avatar: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=100'
-    },
-    group: {
-      name: 'Toronto Social Sports',
-      image: 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=800'
-    },
-    timestamp: new Date(Date.now() - 7200000).toISOString(),
-    content: 'Great game yesterday! Here are some highlights',
-    photos: [
-      'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400',
-      'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400'
-    ],
-    privacy: 'Public'
-  },
-  {
-    id: '3',
-    type: 'event',
-    user: {
-      name: 'Emily Davis',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
-    },
-    group: {
-      name: 'Board Game Nights',
-      image: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=800'
-    },
-    content: 'Excited to announce our next Board Game Night! Check out the event details.',
-    timestamp: new Date(Date.now() - 10800000).toISOString(),
-    privacy: 'Public'
-  }
-];
-
 // Mock data for suggested groups
-const suggestedGroups = [
+const suggestedGroups: Group[] = [
   {
     id: '1',
     name: 'Book & Coffee Club',
@@ -154,73 +41,94 @@ const suggestedGroups = [
     location: 'Toronto, ON',
     meetingFrequency: 'Monthly',
     organizer: 'Emma Wilson',
-    role: 'member'
+    role: 'member',
+    guidelines: [
+      'Be respectful',
+      'No spoilers',
+      'Must love books',
+      'Bring your favorite book'
+    ]
   },
   {
     id: '2',
-    name: 'Social Volleyball',
-    description: 'Casual volleyball meetups for all skill levels',
-    members: 120,
-    category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=800',
+    name: 'Tech Enthusiasts Toronto',
+    description: 'A community of tech professionals and enthusiasts in Toronto',
+    members: 250,
+    category: 'Technology',
+    image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800',
     location: 'Toronto, ON',
     meetingFrequency: 'Weekly',
-    organizer: 'Mike Chen',
+    organizer: 'Sarah Chen',
     role: 'member'
   },
   {
     id: '3',
-    name: 'Cooking Together',
-    description: 'Learn and share recipes while making new friends',
-    members: 95,
-    category: 'Food',
-    image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800',
+    name: 'Toronto Developers Network',
+    description: 'Connect with fellow developers in the Greater Toronto Area',
+    members: 180,
+    category: 'Technology',
+    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800',
     location: 'Toronto, ON',
     meetingFrequency: 'Bi-weekly',
-    organizer: 'Sarah Martinez',
+    organizer: 'Alex Rodriguez',
     role: 'member'
   },
   {
     id: '4',
-    name: 'Photography Walks',
-    description: 'Explore the city and capture moments with fellow photographers',
-    members: 75,
-    category: 'Arts',
-    image: 'https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800',
-    location: 'Toronto, ON',
-    meetingFrequency: 'Weekly',
-    organizer: 'Chris Lee',
-    role: 'member'
-  },
-  {
-    id: '5',
-    name: 'Board Game Night',
-    description: 'Regular meetups for board games and social interaction',
-    members: 110,
-    category: 'Games',
+    name: 'Board Game Enthusiasts',
+    description: 'From classic board games to the latest releases',
+    members: 150,
+    category: 'Gaming',
     image: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=800',
     location: 'Toronto, ON',
     meetingFrequency: 'Weekly',
     organizer: 'David Chen',
     role: 'member'
+  },
+  {
+    id: '5',
+    name: 'Digital Marketing Pros',
+    description: 'Share digital marketing strategies and industry trends',
+    members: 185,
+    category: 'Business',
+    image: 'https://images.unsplash.com/photo-1557838923-2985c318be48?w=800',
+    location: 'Toronto, ON',
+    meetingFrequency: 'Bi-weekly',
+    organizer: 'Mark Johnson',
+    role: 'member'
   }
 ];
 
-const SlackLogo = () => (
-  <svg width="16" height="16" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fillRule="evenodd">
-      <path d="M19.712.133a5.381 5.381 0 0 0-5.376 5.387 5.381 5.381 0 0 0 5.376 5.386h5.376V5.52A5.381 5.381 0 0 0 19.712.133m0 14.365H5.376A5.381 5.381 0 0 0 0 19.884a5.381 5.381 0 0 0 5.376 5.387h14.336a5.381 5.381 0 0 0 5.376-5.387 5.381 5.381 0 0 0-5.376-5.386" fill="#36C5F0"/>
-      <path d="M53.76 19.884a5.381 5.381 0 0 0-5.376-5.386 5.381 5.381 0 0 0-5.376 5.386v5.387h5.376a5.381 5.381 0 0 0 5.376-5.387m-14.336 0V5.52A5.381 5.381 0 0 0 34.048.133a5.381 5.381 0 0 0-5.376 5.387v14.364a5.381 5.381 0 0 0 5.376 5.387 5.381 5.381 0 0 0 5.376-5.387" fill="#2EB67D"/>
-      <path d="M34.048 54a5.381 5.381 0 0 0 5.376-5.387 5.381 5.381 0 0 0-5.376-5.386h-5.376v5.386A5.381 5.381 0 0 0 34.048 54m0-14.365h14.336a5.381 5.381 0 0 0 5.376-5.386 5.381 5.381 0 0 0-5.376-5.387H34.048a5.381 5.381 0 0 0-5.376 5.387 5.381 5.381 0 0 0 5.376 5.386" fill="#ECB22E"/>
-      <path d="M0 34.249a5.381 5.381 0 0 0 5.376 5.386 5.381 5.381 0 0 0 5.376-5.386v-5.387H5.376A5.381 5.381 0 0 0 0 34.25m14.336-.001v14.364A5.381 5.381 0 0 0 19.712 54a5.381 5.381 0 0 0 5.376-5.387V34.25a5.381 5.381 0 0 0-5.376-5.387 5.381 5.381 0 0 0-5.376 5.387" fill="#E01E5A"/>
-    </g>
-  </svg>
-)
+const sections: Record<string, { title: string; paths?: string[]; tabs?: string[] }> = {
+  '/home': {
+    title: 'Home',
+  },
+  '/events': {
+    title: 'Events',
+    paths: ['explore-events', 'my-events', 'create-event'],
+    tabs: ['Explore Events', 'My Events', 'Create Event']
+  },
+  '/groups': {
+    title: 'Groups',
+    paths: ['explore-groups', 'my-groups', 'create-group'],
+    tabs: ['Explore Groups', 'My Groups', 'Create Group']
+  },
+  '/activity-feed': {
+    title: 'Activity Feed',
+    paths: ['all', 'groups', 'events'],
+    tabs: ['All Activity', 'Groups', 'Events']
+  },
+  '/settings': {
+    title: 'Settings',
+    paths: ['general', 'security-privacy', 'notifications'],
+    tabs: ['General', 'Security & Privacy', 'Notifications']
+  }
+};
 
 const SectionContent: React.FC<SectionContentProps> = ({ path, children }) => {
   const location = useLocation()
   const navigate = useNavigate()
-  const section = sections[path]
+  const section = sections[path as keyof typeof sections]
   const [userLocation, setUserLocation] = useState("Toronto, Canada")
 
   if (!section) return null;
@@ -259,7 +167,11 @@ const SectionContent: React.FC<SectionContentProps> = ({ path, children }) => {
   // Get specific events for the home page
   const selectedEvents = allEvents
     .filter(event => !isEventPast(event))
-    .filter(event => event.location.includes('Toronto'))
+    .filter(event => {
+      // Extract city from userLocation (e.g., "Toronto" from "Toronto, Canada")
+      const userCity = userLocation.split(',')[0].trim();
+      return event.location.toLowerCase().includes(userCity.toLowerCase());
+    })
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 3);
 
@@ -269,277 +181,140 @@ const SectionContent: React.FC<SectionContentProps> = ({ path, children }) => {
     }
   }
 
-  if (path === '/home') {
-    return (
-      <VStack spacing={12} width="100%" align="stretch" pl={6} pr={6}>
-        <HeroSection />
-        
-        {/* Events Near You */}
-        <Box>
-          <HStack justify="space-between" mb={8}>
-            <HStack spacing={4}>
-              <Heading size="lg">Events Near You</Heading>
-              <LocationSelector 
-                currentLocation={userLocation}
-                onLocationChange={setUserLocation}
-              />
-            </HStack>
-            <Button
-              rightIcon={<Icon as={FaArrowRight} />}
-              variant="ghost"
-              colorScheme="blue"
-              onClick={() => navigate('/events/explore-events')}
-            >
-              View All Events
-            </Button>
-          </HStack>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-            {selectedEvents.map(event => (
-              <EventCard 
-                key={event.id} 
-                event={event}
-                showPreview={true} 
-              />
-            ))}
-          </SimpleGrid>
-        </Box>
-
-        {/* Suggested Groups */}
-        <Box>
-          <HStack justify="space-between" mb={6}>
-            <Heading size="lg">Suggested Groups</Heading>
-            <Button
-              rightIcon={<Icon as={FaArrowRight} />}
-              variant="ghost"
-              colorScheme="blue"
-              onClick={() => navigate('/groups/explore-groups')}
-            >
-              View All
-            </Button>
-          </HStack>
-          <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={4}>
-            {suggestedGroups.map(group => (
-              <GroupCard
-                key={group.id}
-                group={group}
-              />
-            ))}
-          </SimpleGrid>
-        </Box>
-
-        {/* Activity Feed */}
-        <Box>
-          <HStack justify="space-between" mb={6}>
-            <Heading size="lg">Activity Feed</Heading>
-            <Button
-              as="a"
-              href="/activity-feed/all"
-              rightIcon={<Icon as={FaArrowRight} />}
-              variant="ghost"
-              colorScheme="blue"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate('/activity-feed/all');
-              }}
-            >
-              View All
-            </Button>
-          </HStack>
-          <Box
-            bg={useColorModeValue('gray.50', 'gray.900')}
-            borderWidth="1px"
-            borderColor={useColorModeValue('gray.200', 'gray.700')}
-            borderRadius="lg"
-            overflow="hidden"
-          >
-            <VStack spacing={0} align="stretch" divider={<Divider />}>
-              {mockActivities.map((activity) => (
-                <Box key={activity.id} p={4}>
-                  <HStack spacing={4} align="flex-start">
-                    <Avatar size="md" name={activity.user.name} src={activity.user.avatar} />
-                    <VStack align="stretch" flex={1} spacing={2}>
-                      <HStack>
-                        <Text fontWeight="bold">{activity.user.name}</Text>
-                        <Text color={useColorModeValue('gray.500', 'gray.400')}>{activity.type === 'join' ? `joined ${activity.group?.name}` : `posted in ${activity.group?.name}`}</Text>
-                        <Spacer />
-                        <Badge colorScheme={activity.privacy === 'Public' ? 'green' : 'blue'} size="sm">
-                          {activity.privacy}
-                        </Badge>
-                      </HStack>
-                      {activity.content && (
-                        <Text>{activity.content}</Text>
-                      )}
-                      {activity.photos && (
-                        <SimpleGrid columns={Math.min(2, activity.photos.length)} spacing={2}>
-                          {activity.photos.map((photo, index) => (
-                            <Image key={index} src={photo} alt={`Activity photo ${index + 1}`} borderRadius="md" />
-                          ))}
-                        </SimpleGrid>
-                      )}
-                      <HStack spacing={2} color={useColorModeValue('gray.500', 'gray.400')} fontSize="sm">
-                        <Text>{new Date(activity.timestamp).toLocaleString()}</Text>
-                        {activity.source?.type === 'slack' && (
-                          <>
-                            <Text>•</Text>
-                            <HStack spacing={1}>
-                              <Box display="flex" alignItems="center">
-                                <SlackLogo />
-                              </Box>
-                              <Text color="blue.500">Imported from Slack</Text>
-                            </HStack>
-                          </>
-                        )}
-                      </HStack>
-                    </VStack>
-                  </HStack>
-                </Box>
-              ))}
-            </VStack>
-          </Box>
-        </Box>
-      </VStack>
-    )
-  }
-
-  if (path === '/events') {
-    return (
-      <Box width="100%" minH="100%" pb={8}>
-        <VStack spacing={4} align="stretch">
-          <Box bg={useColorModeValue('gray.50', 'gray.900')} pt={2} pb={4} px={8}>
-            <Tabs 
-              index={tabIndex !== -1 ? tabIndex : 0} 
-              onChange={handleTabChange}
-              variant="unstyled"
-              colorScheme="blue"
-            >
-              <TabList mb={8} ml={-2}>
-                {section.tabs.map((tab, i) => (
-                  <Tab 
-                    key={i} 
-                    mr={4}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    _selected={{ 
-                      color: 'blue.600',
-                      bg: 'blue.50',
-                      borderColor: 'blue.200',
-                      fontWeight: 'bold'
-                    }}
-                    _hover={{
-                      bg: 'blue.50'
-                    }}
-                  >
-                    {tab}
-                  </Tab>
-                ))}
-              </TabList>
-              <Box mt={8}>
-                <Heading size="lg" mb={8}>{getTabHeader()}</Heading>
-                {children || <Outlet />}
-              </Box>
-            </Tabs>
-          </Box>
-        </VStack>
-      </Box>
-    );
-  }
-
-  if (path === '/activity-feed') {
-    const getActivityTabHeader = () => {
-      switch (currentPath) {
-        case 'all':
-          return 'All Activity';
-        case 'groups':
-          return 'Groups';
-        case 'events':
-          return 'Events';
-        default:
-          return 'All Activity';
-      }
-    };
-
-    return (
-      <Box width="100%" minH="100%" pb={8}>
-        <VStack spacing={4} align="stretch">
-          <Box bg={useColorModeValue('gray.50', 'gray.900')} pt={2} pb={4} px={8}>
-            <Tabs 
-              index={tabIndex !== -1 ? tabIndex : 0} 
-              onChange={handleTabChange}
-              variant="unstyled"
-              colorScheme="blue"
-            >
-              <TabList mb={8} ml={-2}>
-                {section.tabs.map((tab, i) => (
-                  <Tab 
-                    key={i} 
-                    mr={4}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    _selected={{ 
-                      color: 'blue.600',
-                      bg: 'blue.50',
-                      borderColor: 'blue.200',
-                      fontWeight: 'bold'
-                    }}
-                    _hover={{
-                      bg: 'blue.50'
-                    }}
-                  >
-                    {tab}
-                  </Tab>
-                ))}
-              </TabList>
-              <Box mt={8}>
-                <Heading size="lg" mb={8}>{getActivityTabHeader()}</Heading>
-                {children || <Outlet />}
-              </Box>
-            </Tabs>
-          </Box>
-        </VStack>
-      </Box>
-    );
-  }
-
   return (
-    <Box width="100%" minH="100%" pb={8}>
-      <VStack spacing={4} align="stretch">
-        <Box bg={useColorModeValue('gray.50', 'gray.900')} pt={2} pb={4} px={8}>
-          <Tabs 
-            index={tabIndex !== -1 ? tabIndex : 0} 
-            onChange={handleTabChange}
-            variant="unstyled"
-            colorScheme="blue"
-          >
-            <TabList mb={8} ml={-2}>
-              {section.tabs.map((tab, i) => (
-                <Tab 
-                  key={i} 
-                  mr={4}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  _selected={{ 
-                    color: 'blue.600',
-                    bg: 'blue.50',
-                    borderColor: 'blue.200',
-                    fontWeight: 'bold'
-                  }}
-                  _hover={{
-                    bg: 'blue.50'
-                  }}
-                >
-                  {tab}
-                </Tab>
-              ))}
-            </TabList>
-            <Box mt={8}>
-              <Heading size="lg" mb={8}>{path === '/activity-feed' ? 'Activity Feed' : getTabHeader()}</Heading>
-              {children || <Outlet />}
-            </Box>
-          </Tabs>
+    <>
+      <Box 
+        position="sticky" 
+        top={0} 
+        px={6}
+        zIndex={2}
+        bg={useColorModeValue('white', 'gray.800')}
+      >
+        <Box position="relative" height={0}>
+          <Box position="absolute" top={2} right={0}>
+            <CreateEventButton />
+          </Box>
         </Box>
-      </VStack>
-    </Box>
-  )
+      </Box>
+      {path === '/home' ? (
+        <VStack spacing={12} width="100%" align="stretch" pl={6} pr={6}>
+          <Box position="relative">
+            <HeroSection />
+          </Box>
+          
+          {/* Events Near You */}
+          <Box>
+            <HStack justify="space-between" mb={8}>
+              <HStack spacing={4}>
+                <Heading size="lg">Events Near You</Heading>
+                <LocationSelector 
+                  currentLocation={userLocation}
+                  onLocationChange={setUserLocation}
+                />
+              </HStack>
+              <Button
+                rightIcon={<Icon as={FaArrowRight} />}
+                variant="ghost"
+                colorScheme="blue"
+                onClick={() => navigate('/events/explore-events')}
+              >
+                View All Events
+              </Button>
+            </HStack>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+              {selectedEvents.map(event => (
+                <EventCard 
+                  key={event.id} 
+                  event={event}
+                  showPreview={true} 
+                />
+              ))}
+            </SimpleGrid>
+          </Box>
+
+          {/* Suggested Groups */}
+          <Box>
+            <HStack justify="space-between" mb={6}>
+              <Heading size="lg">Suggested Groups</Heading>
+              <Button
+                rightIcon={<Icon as={FaArrowRight} />}
+                variant="ghost"
+                colorScheme="blue"
+                onClick={() => navigate('/groups/explore-groups')}
+              >
+                View All
+              </Button>
+            </HStack>
+            <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={4}>
+              {suggestedGroups.map(group => (
+                <GroupCard
+                  key={group.id}
+                  group={group}
+                />
+              ))}
+            </SimpleGrid>
+          </Box>
+
+          {/* Activity Feed */}
+          <Box>
+            <HStack justify="space-between" mb={6}>
+              <Heading size="lg">Recent Activity</Heading>
+              <Button
+                rightIcon={<Icon as={FaArrowRight} />}
+                variant="ghost"
+                colorScheme="blue"
+                onClick={() => navigate('/activity-feed/all')}
+              >
+                View All
+              </Button>
+            </HStack>
+            <Box>
+              <ActivityFeed filter="all" showHeader={false} />
+            </Box>
+          </Box>
+        </VStack>
+      ) : path === '/events' || path === '/groups' || path === '/activity-feed' || path === '/settings' ? (
+        <Box width="100%" minH="100%" pb={8}>
+          <VStack spacing={4} align="stretch">
+            <Box bg={useColorModeValue('gray.50', 'gray.900')} pt={2} pb={4} px={8}>
+              <Tabs 
+                index={tabIndex !== -1 ? tabIndex : 0} 
+                onChange={handleTabChange}
+                variant="unstyled"
+                colorScheme="blue"
+              >
+                <TabList mb={8} ml={-2}>
+                  {section.tabs?.map((tab: string, i: number) => (
+                    <Tab 
+                      key={i} 
+                      mr={4}
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      _selected={{ 
+                        color: 'blue.600',
+                        bg: 'blue.50',
+                        borderColor: 'blue.200',
+                        fontWeight: 'bold'
+                      }}
+                      _hover={{
+                        bg: 'blue.50'
+                      }}
+                    >
+                      {tab}
+                    </Tab>
+                  ))}
+                </TabList>
+                <Box mt={8}>
+                  {path !== '/activity-feed' && <Heading size="lg" mb={8}>{getTabHeader()}</Heading>}
+                  {children || <Outlet />}
+                </Box>
+              </Tabs>
+            </Box>
+          </VStack>
+        </Box>
+      ) : null}
+    </>
+  );
 }
 
 export default SectionContent 

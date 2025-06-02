@@ -8,14 +8,11 @@ import {
   useColorModeValue,
   Icon,
   Divider,
-  Button,
   Spacer,
   Image,
-  Heading,
-  SimpleGrid,
-  Flex
+  SimpleGrid
 } from '@chakra-ui/react'
-import { FaUserPlus, FaComment, FaThumbsUp, FaShare, FaCalendarCheck, FaCamera, FaUsers } from 'react-icons/fa'
+import { FaUserPlus, FaComment, FaCalendarCheck, FaCamera, FaUsers } from 'react-icons/fa'
 import { format } from 'date-fns'
 import { useLocation } from 'react-router-dom'
 
@@ -274,14 +271,14 @@ const GroupActivityFeed = () => {
                   )}
                   {activity.photos && (
                     <Box mt={2}>
-                      <SimpleGrid columns={Math.min(3, activity.photos.length)} spacing={3}>
+                      <SimpleGrid columns={Math.min(4, activity.photos.length)} spacing={2} maxW="100%">
                         {activity.photos.map((photo, index) => (
                           <Box
                             key={index}
                             position="relative"
-                            paddingTop="100%"
+                            width="100%"
+                            paddingBottom="56.25%" // 16:9 aspect ratio
                             overflow="hidden"
-                            borderRadius="md"
                           >
                             <Image
                               position="absolute"
@@ -289,9 +286,10 @@ const GroupActivityFeed = () => {
                               left={0}
                               width="100%"
                               height="100%"
-                              src={photo}
+                              src={`${photo}?w=300&h=169&fit=crop&crop=edges`}
                               alt={`Activity photo ${index + 1}`}
                               objectFit="cover"
+                              borderRadius="md"
                             />
                           </Box>
                         ))}

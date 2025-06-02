@@ -1,9 +1,7 @@
 import { User } from './User'
-import { Event } from './Event'
-import { Group } from './Group'
 
 export type ActivityPrivacy = 'public' | 'members-only' | 'private'
-export type ActivityType = 'event-join' | 'group-join' | 'post'
+export type ActivityType = 'event-join' | 'group-join' | 'post' | 'event-comment' | 'event-photo' | 'event-video' | 'group-leave' | 'group-post' | 'user-update' | 'general-post'
 
 export type UserRole = 'admin' | 'moderator' | 'member' | 'non-member'
 
@@ -13,9 +11,9 @@ export interface ActivityBase {
   user: User
   timestamp: string
   privacy: ActivityPrivacy
-  userRole: UserRole
-  likes: number
-  comments: ActivityComment[]
+  userRole?: UserRole
+  likes?: number
+  comments?: ActivityComment[]
 }
 
 export interface ActivityComment {
@@ -23,7 +21,7 @@ export interface ActivityComment {
   user: User
   content: string
   timestamp: string
-  userRole: UserRole
+  userRole?: UserRole
 }
 
 export interface EventActivity extends ActivityBase {
@@ -31,13 +29,13 @@ export interface EventActivity extends ActivityBase {
     title: string
     description: string
     type: string
-    image: string
+    image?: string
     location: {
       city: string
       country: string
     }
     date: string
-    price: {
+    price?: {
       amount: number
       currency: string
     }

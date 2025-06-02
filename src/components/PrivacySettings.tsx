@@ -9,7 +9,6 @@ import {
   useColorModeValue,
   Button,
   HStack,
-  Select,
   Divider,
   Heading
 } from '@chakra-ui/react';
@@ -52,6 +51,11 @@ const PrivacySettings: React.FC = () => {
     }));
   };
 
+  const handleSaveChanges = () => {
+    // TODO: Implement save functionality
+    console.log('Saving privacy settings...');
+  };
+
   return (
     <Box>
       <VStack spacing={6} align="stretch">
@@ -66,7 +70,7 @@ const PrivacySettings: React.FC = () => {
                 <Switch
                   isChecked={profileVisibility === 'public'}
                   onChange={(e) => setProfileVisibility(e.target.checked ? 'public' : 'private')}
-                  colorScheme="green"
+                  colorScheme="blue"
                 />
                 <Text fontSize="sm" color="gray.500">Public</Text>
               </HStack>
@@ -77,7 +81,7 @@ const PrivacySettings: React.FC = () => {
               <Switch
                 isChecked={onlineStatus}
                 onChange={(e) => setOnlineStatus(e.target.checked)}
-                colorScheme="green"
+                colorScheme="blue"
               />
             </FormControl>
 
@@ -86,7 +90,7 @@ const PrivacySettings: React.FC = () => {
               <Switch
                 isChecked={emailSearch}
                 onChange={(e) => setEmailSearch(e.target.checked)}
-                colorScheme="green"
+                colorScheme="blue"
               />
             </FormControl>
           </VStack>
@@ -103,7 +107,7 @@ const PrivacySettings: React.FC = () => {
                 <Switch
                   isChecked={defaultGroupVisibility === 'public'}
                   onChange={(e) => setDefaultGroupVisibility(e.target.checked ? 'public' : 'private')}
-                  colorScheme="green"
+                  colorScheme="blue"
                 />
                 <Text fontSize="sm" color="gray.500">Public</Text>
               </HStack>
@@ -121,7 +125,7 @@ const PrivacySettings: React.FC = () => {
                     <Switch
                       isChecked={visibility === 'public'}
                       onChange={() => toggleGroupVisibility(groupName)}
-                      colorScheme="green"
+                      colorScheme="blue"
                     />
                     <Text fontSize="sm" color="gray.500">Public</Text>
                   </HStack>
@@ -142,7 +146,7 @@ const PrivacySettings: React.FC = () => {
                 <Switch
                   isChecked={defaultEventPostVisibility === 'public'}
                   onChange={(e) => setDefaultEventPostVisibility(e.target.checked ? 'public' : 'private')}
-                  colorScheme="green"
+                  colorScheme="blue"
                 />
                 <Text fontSize="sm" color="gray.500">Public</Text>
               </HStack>
@@ -160,7 +164,7 @@ const PrivacySettings: React.FC = () => {
                     <Switch
                       isChecked={visibility === 'public'}
                       onChange={() => toggleEventPostVisibility(eventName)}
-                      colorScheme="green"
+                      colorScheme="blue"
                     />
                     <Text fontSize="sm" color="gray.500">Public</Text>
                   </HStack>
@@ -169,6 +173,22 @@ const PrivacySettings: React.FC = () => {
             </VStack>
           </VStack>
         </Box>
+
+        <Button 
+          bgGradient="linear(to-r, blue.400, blue.500)"
+          _hover={{
+            bgGradient: "linear(to-r, blue.500, blue.600)"
+          }}
+          color="white"
+          size="lg"
+          onClick={handleSaveChanges}
+          alignSelf="center"
+          border="none"
+          _focus={{ boxShadow: 'none' }}
+          borderRadius="lg"
+        >
+          Save Changes
+        </Button>
       </VStack>
     </Box>
   );

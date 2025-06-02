@@ -1,15 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { User, UserProfile, UserSettings } from '../types/User';
-import { Event, EventType, EventPrivacy, EventStatus, EventVenue, EventGuidelines } from '../types/Event';
-import { Group, GroupCategory, GroupPrivacy, GroupGuidelines } from '../types/Group';
+import { Event, EventType, EventPrivacy, EventVenue, EventGuidelines } from '../types/Event';
+import { Group, GroupCategory, GroupGuidelines } from '../types/Group';
 import { Location } from '../types/Location';
 import { Activity, ActivityType, ActivityPrivacy, UserRole } from '../types/Activity';
-
-// Helper function to get random enum value
-const getRandomEnumValue = <T extends { [key: string]: string }>(enumObj: T): T[keyof T] => {
-  const values = Object.values(enumObj);
-  return values[Math.floor(Math.random() * values.length)] as T[keyof T];
-};
 
 // Generate a random location
 const generateLocation = (): Location => {
@@ -270,119 +264,11 @@ export const generateActivities = (count: number, users: User[], events: Event[]
   return activities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 };
 
-const socialGroups = [
-  {
-    name: "Toronto Board Game Society",
-    description: "Weekly meetups for board game enthusiasts. From classic strategy games to the latest releases, join us for fun and friendly competition!",
-    category: "Games",
-    image: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=800",
-    location: { city: "Toronto", country: "Canada" }
-  },
-  {
-    name: "Downtown Running Club",
-    description: "Group runs every Tuesday and Thursday evening. All skill levels welcome! Join us for scenic routes through the city.",
-    category: "Sports",
-    image: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800",
-    location: { city: "Toronto", country: "Canada" }
-  },
-  {
-    name: "Karaoke Night Warriors",
-    description: "Weekly karaoke nights at various venues around the city. Come sing your heart out and make new friends!",
-    category: "Music",
-    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800",
-    location: { city: "Toronto", country: "Canada" }
-  },
-  {
-    name: "Toronto Tennis Club",
-    description: "Casual and competitive tennis matches. Regular tournaments and social events for tennis lovers.",
-    category: "Sports",
-    image: "https://images.unsplash.com/photo-1622279457486-62d0a6c86c99?w=800",
-    location: { city: "Toronto", country: "Canada" }
-  },
-  {
-    name: "Crafty Knitters Circle",
-    description: "Monthly knitting meetups. Share patterns, learn new techniques, and enjoy cozy conversations.",
-    category: "Crafts",
-    image: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=800",
-    location: { city: "Toronto", country: "Canada" }
-  }
-]
-
-const socialEvents = [
-  {
-    title: "Board Game Night: Strategy Games Edition",
-    description: "Join us for an evening of strategy board games! We'll be playing Catan, Ticket to Ride, and more. Snacks provided!",
-    type: "Games",
-    image: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=800",
-    location: { city: "Toronto", country: "Canada" },
-    date: "2024-04-15T19:00:00",
-    price: { amount: 0, currency: "CAD" }
-  },
-  {
-    title: "5K Fun Run in High Park",
-    description: "Spring fun run through High Park. All skill levels welcome! Post-run refreshments and socializing.",
-    type: "Sports",
-    image: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800",
-    location: { city: "Toronto", country: "Canada" },
-    date: "2024-04-20T09:00:00",
-    price: { amount: 10, currency: "CAD" }
-  },
-  {
-    title: "Karaoke & Cocktails Night",
-    description: "Sing your favorite songs and enjoy craft cocktails. Great atmosphere and friendly crowd!",
-    type: "Music",
-    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800",
-    location: { city: "Toronto", country: "Canada" },
-    date: "2024-04-22T20:00:00",
-    price: { amount: 15, currency: "CAD" }
-  }
-]
-
-const socialActivities = [
-  {
-    type: "event-join",
-    content: "Joined Board Game Night: Strategy Games Edition",
-    timestamp: "2024-04-01T14:30:00",
-    user: {
-      name: "Sarah Chen",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200"
-    },
-    event: socialEvents[0]
-  },
-  {
-    type: "group-join",
-    content: "Joined Toronto Tennis Club",
-    timestamp: "2024-04-01T12:15:00",
-    user: {
-      name: "Mike Thompson",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200"
-    },
-    group: socialGroups[3]
-  },
-  {
-    type: "post",
-    content: "Had an amazing time at the Karaoke Night! Can't wait for next week! 🎤✨",
-    timestamp: "2024-04-01T10:00:00",
-    user: {
-      name: "Emily Rodriguez",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200"
-    },
-    likes: 12,
-    link: "/events/karaoke-night"
-  }
-]
-
 // Generate all mock data
 export const generateMockData = () => {
-  const users = generateUsers(20);
-  const groups = generateGroups(50, users);
+  const users = generateUsers(100);
+  const groups = generateGroups(20, users);
   const events = generateEvents(50, users, groups);
-  const activities = generateActivities(1000, users, events, groups);
-
-  return {
-    users,
-    groups,
-    events,
-    activities: socialActivities
-  };
-}; 
+  const activities = generateActivities(30, users, events, groups);
+  return { users, groups, events, activities };
+};

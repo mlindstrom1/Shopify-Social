@@ -1,19 +1,22 @@
 import {
   Box,
+  VStack,
+  SimpleGrid,
+  Text,
   Input,
   InputGroup,
   InputLeftElement,
-  SimpleGrid,
-  Select,
-  VStack,
-  Text,
-  useColorModeValue,
   Icon,
-  InputRightElement,
+  Button,
+  Badge,
+  HStack,
+  useColorModeValue,
   IconButton,
+  InputRightElement,
+  Select
 } from '@chakra-ui/react'
-import { FaSearch, FaTimes, FaUsers, FaBriefcase, FaRunning, FaCode, FaGamepad, FaPalette } from 'react-icons/fa'
-import { useState } from 'react'
+import { FaSearch, FaTimes, FaFilter } from 'react-icons/fa'
+import { useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GroupCard from './GroupCard'
 
@@ -337,30 +340,6 @@ export const exploreGroups: Group[] = [
 const locations = ["All Locations", "Toronto, ON", "San Francisco, CA", "New York, NY", "Boston, MA", "Seattle, WA"]
 const categories = ["All Categories", "Technology", "Gaming", "Sports", "Wellness", "Arts", "Business"]
 
-const getGroupCategoryColor = (category: string) => {
-  const colors = {
-    Technology: 'linear(to-r, blue.400, cyan.400)',
-    Gaming: 'linear(to-r, purple.400, pink.400)',
-    Sports: 'linear(to-r, green.400, teal.400)',
-    Wellness: 'linear(to-r, orange.400, yellow.400)',
-    Arts: 'linear(to-r, pink.400, red.400)',
-    Business: 'linear(to-r, gray.400, blue.400)'
-  }
-  return colors[category as keyof typeof colors] || 'gray.500'
-}
-
-const getGroupCategoryIcon = (category: string) => {
-  const icons = {
-    Technology: FaCode,
-    Gaming: FaGamepad,
-    Sports: FaRunning,
-    Wellness: FaUsers,
-    Arts: FaPalette,
-    Business: FaBriefcase
-  }
-  return icons[category as keyof typeof icons] || FaUsers
-}
-
 const ExploreGroups = () => {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState("")
@@ -393,7 +372,7 @@ const ExploreGroups = () => {
             <Input
               placeholder="Search groups..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               pr="4.5rem"
             />
             {searchQuery && (
@@ -412,7 +391,7 @@ const ExploreGroups = () => {
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
             <Select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedCategory(e.target.value)}
               placeholder="Category"
               size="lg"
             >
@@ -423,7 +402,7 @@ const ExploreGroups = () => {
 
             <Select
               value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedLocation(e.target.value)}
               placeholder="Location"
               size="lg"
             >

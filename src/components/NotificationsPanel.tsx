@@ -1,4 +1,4 @@
-import { Box, VStack, Text, Heading, Divider, useColorModeValue, HStack, Avatar, Icon } from '@chakra-ui/react'
+import { Box, VStack, Text, Heading, useColorModeValue, HStack, Avatar, Icon } from '@chakra-ui/react'
 import { InfoIcon, CalendarIcon, ChatIcon } from '@chakra-ui/icons'
 
 interface NotificationsPanelProps {
@@ -48,7 +48,7 @@ const notifications = [
   }
 ]
 
-const NotificationsPanel = ({ isOpen, onClose }: NotificationsPanelProps) => {
+const NotificationsPanel = ({ isOpen }: NotificationsPanelProps) => {
   const bgColor = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
   const hoverBg = useColorModeValue('gray.50', 'gray.700')

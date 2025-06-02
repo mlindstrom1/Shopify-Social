@@ -6,13 +6,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Text,
   VStack,
-  HStack,
   Icon,
   useDisclosure,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+  Box,
+  Divider
 } from '@chakra-ui/react'
-import { FaMapMarkerAlt } from 'react-icons/fa'
+import { useState } from 'react'
+import { FaMapMarkerAlt, FaSearch } from 'react-icons/fa'
 
 interface LocationSelectorProps {
   currentLocation: string;
@@ -21,14 +26,42 @@ interface LocationSelectorProps {
 
 const locations = [
   "Toronto, Canada",
-  "Dublin, Ireland",
-  "San Francisco, USA",
+  "Vancouver, Canada",
+  "Montreal, Canada",
   "New York, USA",
-  "London, UK"
+  "San Francisco, USA",
+  "Los Angeles, USA",
+  "Chicago, USA",
+  "Boston, USA",
+  "Seattle, USA",
+  "London, UK",
+  "Manchester, UK",
+  "Dublin, Ireland",
+  "Sydney, Australia",
+  "Melbourne, Australia",
+  "Singapore",
+  "Tokyo, Japan",
+  "Berlin, Germany",
+  "Paris, France",
+  "Amsterdam, Netherlands",
+  "Barcelona, Spain"
 ];
 
 const LocationSelector = ({ currentLocation, onLocationChange }: LocationSelectorProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const filteredLocations = locations.filter(location =>
+    location.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  const popularLocations = [
+    "Toronto, Canada",
+    "New York, USA",
+    "London, UK",
+    "San Francisco, USA",
+    "Vancouver, Canada"
+  ]
 
   return (
     <>
@@ -42,14 +75,55 @@ const LocationSelector = ({ currentLocation, onLocationChange }: LocationSelecto
         {currentLocation}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="md">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Select Your Location</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <VStack spacing={2} align="stretch">
-              {locations.map((location) => (
+            <InputGroup mb={4}>
+              <InputLeftElement pointerEvents="none">
+                <Icon as={FaSearch} color="gray.400" />
+              </InputLeftElement>
+              <Input
+                placeholder="Search locations..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </InputGroup>
+
+            {!searchTerm && (
+              <>
+                <Text fontWeight="bold" mb={2}>Popular Locations</Text>
+                <VStack spacing={2} align="stretch" mb={4}>
+                  {popularLocations.map((location) => (
+                    <Button
+                      key={location}
+                      variant="ghost"
+                      justifyContent="flex-start"
+                      onClick={() => {
+                        onLocationChange(location)
+                        onClose()
+                      }}
+                      leftIcon={<Icon as={FaMapMarkerAlt} />}
+                      color={location === currentLocation ? "blue.500" : "gray.600"}
+                      bg={location === currentLocation ? "blue.50" : "transparent"}
+                      _hover={{
+                        bg: "blue.50",
+                        color: "blue.500"
+                      }}
+                    >
+                      {location}
+                    </Button>
+                  ))}
+                </VStack>
+                <Divider my={4} />
+                <Text fontWeight="bold" mb={2}>All Locations</Text>
+              </>
+            )}
+
+            <VStack spacing={2} align="stretch" maxH="300px" overflowY="auto">
+              {filteredLocations.map((location) => (
                 <Button
                   key={location}
                   variant="ghost"
@@ -69,6 +143,11 @@ const LocationSelector = ({ currentLocation, onLocationChange }: LocationSelecto
                   {location}
                 </Button>
               ))}
+              {filteredLocations.length === 0 && (
+                <Box textAlign="center" py={4} color="gray.500">
+                  No locations found matching your search
+                </Box>
+              )}
             </VStack>
           </ModalBody>
         </ModalContent>

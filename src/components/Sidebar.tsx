@@ -1,5 +1,4 @@
 import { 
-  Box, 
   VStack,
   useColorModeValue,
   Icon,
@@ -15,7 +14,7 @@ const mainNavItems = [
   { name: 'Home', path: '/home', icon: FaHome },
   { name: 'Events', path: '/events/explore-events', icon: FaCalendarAlt },
   { name: 'Groups', path: '/groups/explore-groups', icon: FaUsers },
-  { name: 'Activity Feed', path: '/activity-feed', icon: FaStream }
+  { name: 'Activity Feed', path: '/activity-feed/all', icon: FaStream }
 ]
 
 const Sidebar = () => {
