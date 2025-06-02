@@ -6,15 +6,15 @@ function htmlPlugin(): Plugin {
   return {
     name: 'html-transform',
     enforce: 'post',
-    transformIndexHtml(html, ctx) {
-      // Only transform during build
-      if (!ctx.bundle) return html
-
-      // Add base URL to asset paths
+    transformIndexHtml(html) {
+      // Add base URL to all asset paths
       return html
         .replace(/(src|href)="\/assets\//g, '$1="/Shopify-Social/assets/')
         .replace(/(src|href)="\/Shopify-Social\/assets\//g, '$1="/Shopify-Social/assets/')
         .replace(/(modulepreload|stylesheet)" crossorigin href="\/assets\//g, '$1" crossorigin href="/Shopify-Social/assets/')
+        .replace(/src="\/src\//g, 'src="/Shopify-Social/src/')
+        .replace(/from "\/src\//g, 'from "/Shopify-Social/src/"')
+        .replace(/import "\/src\//g, 'import "/Shopify-Social/src/"')
     }
   }
 }
@@ -25,6 +25,11 @@ export default defineConfig({
   base: '/Shopify-Social/',
   define: {
     global: 'globalThis',
+  },
+  server: {
+    fs: {
+      strict: true,
+    },
   },
   resolve: {
     alias: {
