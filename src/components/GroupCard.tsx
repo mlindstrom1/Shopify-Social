@@ -19,6 +19,18 @@ interface GroupCardProps {
   onClick?: (groupId: string) => void
 }
 
+const getGroupCategoryColor = (category: string) => {
+  const colors = {
+    Technology: 'linear(to-r, blue.400, cyan.400)',
+    Gaming: 'linear(to-r, purple.400, pink.400)',
+    Sports: 'linear(to-r, green.500, teal.500)',
+    Wellness: 'linear(to-r, cyan.400, blue.400)',
+    Arts: 'linear(to-r, pink.400, red.400)',
+    Business: 'linear(to-r, orange.400, yellow.400)'
+  }
+  return colors[category as keyof typeof colors] || 'linear(to-r, gray.400, gray.500)'
+}
+
 const getRoleBadgeProps = (role: string) => {
   switch (role) {
     case 'admin':
@@ -106,7 +118,15 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, showRole = false, role = g
           </Badge>
         )}
 
-        <Badge colorScheme="blue" alignSelf="flex-start">
+        <Badge
+          bgGradient={getGroupCategoryColor(group.category)}
+          color="white"
+          alignSelf="flex-start"
+          px={3}
+          py={1}
+          borderRadius="full"
+          fontSize="sm"
+        >
           {group.category}
         </Badge>
       </VStack>
