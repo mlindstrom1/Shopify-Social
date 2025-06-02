@@ -8,7 +8,18 @@ export default defineConfig(({ command }) => {
   const base = isProduction ? '/Shopify-Social/' : '/'
   
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      {
+        name: 'configure-response-headers',
+        configureServer: (server) => {
+          server.middlewares.use((_req, res, next) => {
+            res.setHeader('Content-Type', 'application/javascript');
+            next();
+          });
+        }
+      }
+    ],
     define: {
       global: 'globalThis',
     },
@@ -35,9 +46,9 @@ export default defineConfig(({ command }) => {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },
-          assetFileNames: 'assets/[name]-[hash][extname]',
-          chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]'
         },
       },
     },
