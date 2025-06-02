@@ -13,8 +13,6 @@ import {
   useColorModeValue,
   Select,
   Icon,
-  Heading,
-  Container,
   Grid,
   GridItem,
   FormHelperText,
@@ -22,7 +20,8 @@ import {
   Divider,
   useToast,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
+  Heading
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { FaTimes, FaImage, FaMapMarkerAlt, FaUsers, FaTag, FaCalendar } from 'react-icons/fa'
@@ -30,11 +29,7 @@ import { useNavigate } from 'react-router-dom'
 import { Event } from './events'
 import EventCard from './EventCard'
 
-interface CreateEventFormProps {
-  step: number;
-}
-
-const CreateEventForm = ({ step }: CreateEventFormProps) => {
+const CreateEventForm = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const bgColor = useColorModeValue('white', 'gray.800')

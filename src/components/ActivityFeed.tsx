@@ -7,15 +7,10 @@ import {
   Button,
   Icon,
   Image,
-  Divider,
-  useColorModeValue,
-  Link,
-  Badge,
-  Flex,
-  IconButton
+  useColorModeValue
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { FaHeart, FaComment, FaShare, FaCalendar, FaUsers, FaMapMarkerAlt, FaClock } from 'react-icons/fa'
+import { FaHeart, FaComment, FaShare, FaCalendar, FaUsers, FaMapMarkerAlt } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { exploreGroups } from './ExploreGroups'
 import { allEvents } from './events'

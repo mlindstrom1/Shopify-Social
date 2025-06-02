@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FaMapMarkerAlt, FaUsers, FaImage } from 'react-icons/fa'
+import { FaMapMarkerAlt, FaImage } from 'react-icons/fa'
 
 const CreateGroup = () => {
   const navigate = useNavigate()
