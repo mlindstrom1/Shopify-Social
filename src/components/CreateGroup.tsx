@@ -42,25 +42,12 @@ const CreateGroup = () => {
   const [image, setImage] = useState('')
   const [isPublic, setIsPublic] = useState(true)
   const [guidelines, setGuidelines] = useState('')
-  const [tags, setTags] = useState<string[]>([])
-  const [newTag, setNewTag] = useState('')
   const [settings, setSettings] = useState({
     allowMemberEvents: true,
     requireMemberApproval: false,
     allowMemberPosts: true,
     showInSearch: true
   })
-
-  const handleAddTag = () => {
-    if (newTag.trim() && !tags.includes(newTag.trim())) {
-      setTags([...tags, newTag.trim()])
-      setNewTag('')
-    }
-  }
-
-  const handleRemoveTag = (tag: string) => {
-    setTags(tags.filter(t => t !== tag))
-  }
 
   const handleSubmit = () => {
     // Here you would typically make an API call to create the group

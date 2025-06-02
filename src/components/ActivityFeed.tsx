@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaHeart, FaComment, FaShare, FaCalendar, FaUsers, FaMapMarkerAlt } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
 import { exploreGroups } from './ExploreGroups'
 import { allEvents } from './events'
 
@@ -169,7 +168,6 @@ const activityFeed: ActivityPost[] = [
 ]
 
 const ActivityFeed = () => {
-  const navigate = useNavigate()
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set())
   const bgColor = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
