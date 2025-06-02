@@ -18,7 +18,10 @@ import {
   TabList,
   Tab,
   TabPanels,
-  TabPanel
+  TabPanel,
+  Button,
+  Image,
+  Avatar
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';

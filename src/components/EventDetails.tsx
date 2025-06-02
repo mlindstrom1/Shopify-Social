@@ -10,7 +10,6 @@ import {
   Avatar,
   Button,
   Textarea,
-  Input,
   useColorModeValue,
   Divider,
   Icon,
@@ -19,10 +18,10 @@ import {
   Tag,
   Wrap,
   WrapItem,
-  Link,
   List,
   ListItem,
   ListIcon,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
