@@ -26,12 +26,9 @@ export default defineConfig(({ command }) => {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },
-          assetFileNames: (assetInfo) => {
-            if (assetInfo.name === 'vite.svg') {
-              return '[name][extname]'
-            }
-            return 'assets/[name]-[hash][extname]'
-          },
+          assetFileNames: 'assets/[name]-[hash][extname]',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js',
         },
       },
     },
