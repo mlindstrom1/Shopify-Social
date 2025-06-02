@@ -8,7 +8,18 @@ export default defineConfig(({ command }) => {
   const base = isProduction ? '/Shopify-Social/' : '/'
   
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      {
+        name: 'html-transform',
+        transformIndexHtml(html) {
+          return html.replace(
+            /%BASE_URL%/g,
+            base
+          )
+        }
+      }
+    ],
     define: {
       global: 'globalThis',
     },
