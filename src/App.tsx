@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <ChakraProvider>
-      <Router>
+      <Router basename="/Shopify-Social">
         <Box 
           minHeight="100vh"
           height="100vh"
