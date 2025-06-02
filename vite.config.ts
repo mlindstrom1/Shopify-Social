@@ -13,10 +13,12 @@ export default defineConfig(({ command }) => {
       {
         name: 'html-transform',
         transformIndexHtml(html) {
-          return html.replace(
-            /%BASE_URL%/g,
-            base
-          )
+          if (isProduction) {
+            return html
+              .replace(/src="\/assets\//g, `src="${base}assets/`)
+              .replace(/href="\/assets\//g, `href="${base}assets/`)
+          }
+          return html
         }
       }
     ],
