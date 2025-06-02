@@ -7,8 +7,7 @@ import {
   Switch,
   Text,
   useColorModeValue,
-  Button,
-  HStack
+  Button
 } from '@chakra-ui/react';
 
 const NotificationSettings: React.FC = () => {

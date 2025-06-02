@@ -7,15 +7,12 @@ import {
   InputGroup,
   InputLeftElement,
   Icon,
-  Button,
-  Badge,
-  HStack,
   useColorModeValue,
   IconButton,
   InputRightElement,
   Select
 } from '@chakra-ui/react'
-import { FaSearch, FaTimes, FaFilter } from 'react-icons/fa'
+import { FaSearch, FaTimes } from 'react-icons/fa'
 import { useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GroupCard from './GroupCard'

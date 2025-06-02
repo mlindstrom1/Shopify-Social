@@ -13,7 +13,7 @@ import {
   SimpleGrid
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { FaHeart, FaComment, FaShare, FaCalendar, FaUsers, FaMapMarkerAlt, FaSlack } from 'react-icons/fa'
+import { FaHeart, FaComment, FaShare, FaCalendar, FaUsers, FaMapMarkerAlt } from 'react-icons/fa'
 import { exploreGroups } from './ExploreGroups'
 import { allEvents } from './events'
 import { format } from 'date-fns'
