@@ -18,10 +18,9 @@ import {
   TabPanels,
   TabPanel,
   Button,
-  HStack,
-  Badge
+  HStack
 } from '@chakra-ui/react';
-import { FaSearch, FaTimes, FaFilter } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import EventCard from './EventCard';
 import { Event, isEventPast } from './events';
 
