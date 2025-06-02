@@ -11,10 +11,10 @@ function htmlPlugin(): Plugin {
       if (!ctx.bundle) return html
 
       // Add base URL to asset paths
-      return html.replace(
-        /(src|href)="\/assets\//g,
-        `$1="./assets/`
-      )
+      return html
+        .replace(/(src|href)="\/assets\//g, '$1="/Shopify-Social/assets/')
+        .replace(/(src|href)="\/Shopify-Social\/assets\//g, '$1="/Shopify-Social/assets/')
+        .replace(/(modulepreload|stylesheet)" crossorigin href="\/assets\//g, '$1" crossorigin href="/Shopify-Social/assets/')
     }
   }
 }
