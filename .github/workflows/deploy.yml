@@ -37,8 +37,9 @@ jobs:
           cd dist
           cp index.html 404.html
           touch .nojekyll
-          find . -type f -name "*.html" -exec sed -i 's|src="/assets/|src="./assets/|g' {} +
-          find . -type f -name "*.html" -exec sed -i 's|href="/assets/|href="./assets/|g' {} +
+          find . -type f -name "*.html" -exec sed -i 's|src="/|src="/Shopify-Social/|g' {} +
+          find . -type f -name "*.html" -exec sed -i 's|href="/|href="/Shopify-Social/|g' {} +
+          find . -type f -name "*.js" -exec sed -i 's|"/assets/|"/Shopify-Social/assets/|g' {} +
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

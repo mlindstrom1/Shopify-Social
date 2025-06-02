@@ -22,7 +22,7 @@ function htmlPlugin(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), htmlPlugin()],
-  base: './',
+  base: '/Shopify-Social/',
   define: {
     global: 'globalThis',
   },
