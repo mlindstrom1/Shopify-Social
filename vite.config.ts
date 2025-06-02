@@ -8,18 +8,7 @@ export default defineConfig(({ command }) => {
   const base = isProduction ? '/Shopify-Social/' : '/'
   
   return {
-    plugins: [
-      react(),
-      {
-        name: 'configure-response-headers',
-        configureServer: (server) => {
-          server.middlewares.use((_req, res, next) => {
-            res.setHeader('Content-Type', 'application/javascript');
-            next();
-          });
-        }
-      }
-    ],
+    plugins: [react()],
     define: {
       global: 'globalThis',
     },
@@ -40,15 +29,20 @@ export default defineConfig(({ command }) => {
       assetsDir: 'assets',
       rollupOptions: {
         input: {
-          main: resolve(__dirname, 'index.html'),
+          index: resolve(__dirname, 'index.html'),
         },
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },
-          entryFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name].js',
           chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name]-[hash].[ext]'
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name === 'vite.svg') {
+              return '[name][extname]';
+            }
+            return 'assets/[name]-[hash][extname]';
+          }
         },
       },
     },
