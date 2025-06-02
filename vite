@@ -1,0 +1,20 @@
+
+
+  VITE v5.4.19  ready in 255 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+12:59:15 PM [vite] hmr update /src/components/MainContent.tsx
+12:59:25 PM [vite] hmr update /src/components/MainContent.tsx (x2)
+12:59:35 PM [vite] hmr update /src/components/MainContent.tsx (x3)
+1:01:50 PM [vite] hmr update /src/components/NearbyEvents.tsx
+1:32:00 PM [vite] hmr update /src/components/EventCard.tsx
+1:32:25 PM [vite] hmr update /src/components/EventCard.tsx (x2)
+1:33:53 PM [vite] hmr update /src/components/NearbyEvents.tsx
+1:40:01 PM [vite] hmr update /src/components/MainContent.tsx
+1:40:12 PM [vite] hmr update /src/components/MainContent.tsx (x2)
+3:26:39 PM [vite] hmr update /src/components/NearbyEvents.tsx
+npm run dev
+npm run dev
+npm run dev
