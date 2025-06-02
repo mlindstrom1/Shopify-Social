@@ -8,7 +8,7 @@ import { useState } from 'react'
 const App = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const bgColor = useColorModeValue('gray.50', 'gray.900')
-  const basename = import.meta.env.PROD ? '/Shopify-Social' : '/'
+  const basename = import.meta.env.PROD ? '/Shopify-Social/' : '/'
 
   return (
     <ChakraProvider>
