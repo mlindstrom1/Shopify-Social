@@ -7,10 +7,21 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directory
 node_modules
+
+# Build output
 dist
 dist-ssr
+extensions/*/build
 *.local
+
+# Environment Configuration
+.env
+.env.*
+
+# Test coverage directory
+coverage
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +33,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ngrok tunnel file
+config/tunnel.pid
+
+# Node library SQLite database
+web/database.sqlite
+
+# Ignore shopify files created during app dev
+.shopify/*
+.shopify.lock
