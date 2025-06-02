@@ -1,10 +1,27 @@
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
+function htmlPlugin(): Plugin {
+  return {
+    name: 'html-transform',
+    enforce: 'post',
+    transformIndexHtml(html, ctx) {
+      // Only transform during build
+      if (!ctx.bundle) return html
+
+      // Add base URL to asset paths
+      return html.replace(
+        /(src|href)="\/assets\//g,
+        `$1="/Shopify-Social/assets/`
+      )
+    }
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), htmlPlugin()],
   base: '/Shopify-Social/',
   define: {
     global: 'globalThis',

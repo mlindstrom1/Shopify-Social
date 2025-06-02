@@ -32,20 +32,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Create .nojekyll file
-        run: touch dist/.nojekyll
-
-      - name: Copy index.html to 404.html
-        run: cp dist/index.html dist/404.html
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
+      - name: Fix asset paths
+        run: |
+          cd dist
+          find . -type f -name "*.html" -exec sed -i 's|src="/assets/|src="/Shopify-Social/assets/|g' {} +
+          find . -type f -name "*.html" -exec sed -i 's|href="/assets/|href="/Shopify-Social/assets/|g' {} +
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          clean: true 
