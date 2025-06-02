@@ -18,10 +18,11 @@ import {
   Spacer,
   Badge,
   Image,
+  Flex
 } from '@chakra-ui/react'
 import { useLocation, useNavigate, Outlet } from 'react-router-dom'
 import { useState } from 'react'
-import { FaArrowRight, FaUsers, FaUserPlus, FaCalendarCheck, FaCamera } from 'react-icons/fa'
+import { FaArrowRight, FaUsers, FaUserPlus, FaCalendarCheck, FaCamera, FaComment, FaThumbsUp, FaShare, FaSlack } from 'react-icons/fa'
 import { allEvents, isEventPast } from './events'
 import HeroSection from './HeroSection'
 import EventCard from './EventCard'
@@ -64,8 +65,29 @@ const sections: Record<string, { name: string; tabs: string[]; paths?: string[] 
   }
 };
 
+// Mock data interface
+interface FeedActivity {
+  id: string;
+  type: 'join' | 'photo' | 'event';
+  user: {
+    name: string;
+    avatar: string;
+  };
+  group?: {
+    name: string;
+    image: string;
+  };
+  content?: string;
+  timestamp: string;
+  privacy: 'Public' | 'Members Only';
+  photos?: string[];
+  source?: {
+    type: 'slack';
+  };
+}
+
 // Mock data for the activity feed
-const mockActivities = [
+const mockActivities: FeedActivity[] = [
   {
     id: '1',
     type: 'join',
@@ -79,7 +101,10 @@ const mockActivities = [
     },
     content: 'Just joined the Toronto Tech Meetup group! Looking forward to connecting with fellow developers.',
     timestamp: new Date(Date.now() - 3600000).toISOString(),
-    privacy: 'Public'
+    privacy: 'Public',
+    source: {
+      type: 'slack'
+    }
   },
   {
     id: '7',
@@ -180,6 +205,17 @@ const suggestedGroups = [
     role: 'member'
   }
 ];
+
+const SlackLogo = () => (
+  <svg width="16" height="16" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fillRule="evenodd">
+      <path d="M19.712.133a5.381 5.381 0 0 0-5.376 5.387 5.381 5.381 0 0 0 5.376 5.386h5.376V5.52A5.381 5.381 0 0 0 19.712.133m0 14.365H5.376A5.381 5.381 0 0 0 0 19.884a5.381 5.381 0 0 0 5.376 5.387h14.336a5.381 5.381 0 0 0 5.376-5.387 5.381 5.381 0 0 0-5.376-5.386" fill="#36C5F0"/>
+      <path d="M53.76 19.884a5.381 5.381 0 0 0-5.376-5.386 5.381 5.381 0 0 0-5.376 5.386v5.387h5.376a5.381 5.381 0 0 0 5.376-5.387m-14.336 0V5.52A5.381 5.381 0 0 0 34.048.133a5.381 5.381 0 0 0-5.376 5.387v14.364a5.381 5.381 0 0 0 5.376 5.387 5.381 5.381 0 0 0 5.376-5.387" fill="#2EB67D"/>
+      <path d="M34.048 54a5.381 5.381 0 0 0 5.376-5.387 5.381 5.381 0 0 0-5.376-5.386h-5.376v5.386A5.381 5.381 0 0 0 34.048 54m0-14.365h14.336a5.381 5.381 0 0 0 5.376-5.386 5.381 5.381 0 0 0-5.376-5.387H34.048a5.381 5.381 0 0 0-5.376 5.387 5.381 5.381 0 0 0 5.376 5.386" fill="#ECB22E"/>
+      <path d="M0 34.249a5.381 5.381 0 0 0 5.376 5.386 5.381 5.381 0 0 0 5.376-5.386v-5.387H5.376A5.381 5.381 0 0 0 0 34.25m14.336-.001v14.364A5.381 5.381 0 0 0 19.712 54a5.381 5.381 0 0 0 5.376-5.387V34.25a5.381 5.381 0 0 0-5.376-5.387 5.381 5.381 0 0 0-5.376 5.387" fill="#E01E5A"/>
+    </g>
+  </svg>
+)
 
 const SectionContent: React.FC<SectionContentProps> = ({ path, children }) => {
   const location = useLocation()
@@ -331,37 +367,28 @@ const SectionContent: React.FC<SectionContentProps> = ({ path, children }) => {
                         </Badge>
                       </HStack>
                       {activity.content && (
-                        <Text color={useColorModeValue('gray.500', 'gray.400')}>{activity.content}</Text>
+                        <Text>{activity.content}</Text>
                       )}
                       {activity.photos && (
-                        <Box mt={2}>
-                          <SimpleGrid columns={Math.min(3, activity.photos.length)} spacing={3}>
-                            {activity.photos.map((photo, index) => (
-                              <Box
-                                key={index}
-                                position="relative"
-                                paddingTop="100%"
-                                overflow="hidden"
-                                borderRadius="md"
-                              >
-                                <Image
-                                  position="absolute"
-                                  top={0}
-                                  left={0}
-                                  width="100%"
-                                  height="100%"
-                                  src={photo}
-                                  alt={`Activity photo ${index + 1}`}
-                                  objectFit="cover"
-                                />
-                              </Box>
-                            ))}
-                          </SimpleGrid>
-                        </Box>
+                        <SimpleGrid columns={Math.min(2, activity.photos.length)} spacing={2}>
+                          {activity.photos.map((photo, index) => (
+                            <Image key={index} src={photo} alt={`Activity photo ${index + 1}`} borderRadius="md" />
+                          ))}
+                        </SimpleGrid>
                       )}
-                      <HStack spacing={4} fontSize="sm" color={useColorModeValue('gray.500', 'gray.400')}>
-                        <Icon as={activity.type === 'join' ? FaUserPlus : activity.type === 'photo' ? FaCamera : FaCalendarCheck} />
-                        <Text>{format(new Date(activity.timestamp), 'MMM d, yyyy h:mm a')}</Text>
+                      <HStack spacing={2} color={useColorModeValue('gray.500', 'gray.400')} fontSize="sm">
+                        <Text>{new Date(activity.timestamp).toLocaleString()}</Text>
+                        {activity.source?.type === 'slack' && (
+                          <>
+                            <Text>•</Text>
+                            <HStack spacing={1}>
+                              <Box display="flex" alignItems="center">
+                                <SlackLogo />
+                              </Box>
+                              <Text color="blue.500">Imported from Slack</Text>
+                            </HStack>
+                          </>
+                        )}
                       </HStack>
                     </VStack>
                   </HStack>
