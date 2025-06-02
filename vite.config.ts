@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
   define: {
     global: 'globalThis',
@@ -20,9 +20,11 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
         },
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames: 'assets/[name].js',
+        entryFileNames: 'assets/[name].js',
       },
     },
-    assetsDir: 'assets',
   },
-  base: process.env.NODE_ENV === 'production' ? '/Shopify-Social/' : '/',
-})
+  base: command === 'serve' ? '/' : '/Shopify-Social/',
+}))
