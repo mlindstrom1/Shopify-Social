@@ -114,12 +114,12 @@ const ProfileSettings: React.FC = () => {
         </Box>
 
         <Button 
-          bgGradient="linear(to-r, blue.400, blue.500)"
+          bg="blue.500"
           _hover={{
-            bgGradient: "linear(to-r, blue.500, blue.600)"
+            bg: "blue.600"
           }}
           color="white"
-          size="lg"
+          size="md"
           alignSelf="center"
           border="none"
           _focus={{ boxShadow: 'none' }}

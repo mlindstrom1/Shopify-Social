@@ -11,7 +11,9 @@ import {
   Input,
   InputRightElement,
   IconButton,
-  Select
+  Select,
+  HStack,
+  Badge
 } from '@chakra-ui/react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 import { Group } from './ExploreGroups'
@@ -21,16 +23,59 @@ interface MyGroupsProps {
   groups: Group[];
 }
 
+const locations = [
+  "All Locations",
+  "Toronto, ON",
+  "San Francisco, CA",
+  "New York, NY",
+  "Boston, MA",
+  "Seattle, WA"
+];
+
+const categories = [
+  "All Categories",
+  "Technology",
+  "Gaming",
+  "Sports",
+  "Wellness",
+  "Arts",
+  "Business"
+];
+
+const roles = [
+  "All Roles",
+  "Admin",
+  "Moderator",
+  "Member"
+];
+
 const MyGroups = ({ groups }: MyGroupsProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
   const [selectedRole, setSelectedRole] = useState("All Roles");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
-  const filteredGroups = groups.filter(group => 
-    group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    group.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const clearFilters = () => {
+    setSelectedLocation("All Locations");
+    setSelectedRole("All Roles");
+    setSelectedCategory("All Categories");
+  };
+
+  const activeFilters = [
+    selectedLocation !== "All Locations",
+    selectedRole !== "All Roles",
+    selectedCategory !== "All Categories"
+  ].filter(Boolean).length;
+
+  const filteredGroups = groups.filter(group => {
+    const matchesSearch = group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         group.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesLocation = selectedLocation === "All Locations" || group.location === selectedLocation;
+    const matchesRole = selectedRole === "All Roles" || (group.role && group.role.toLowerCase() === selectedRole.toLowerCase());
+    const matchesCategory = selectedCategory === "All Categories" || group.category === selectedCategory;
+
+    return matchesSearch && matchesLocation && matchesRole && matchesCategory;
+  });
 
   return (
     <Box width="100%" minH="100%" pb={8}>
@@ -59,48 +104,50 @@ const MyGroups = ({ groups }: MyGroupsProps) => {
             )}
           </InputGroup>
 
+          <HStack mb={4} justify="space-between">
+            <Text color="gray.600" fontSize="sm">
+              Filters {activeFilters > 0 && <Badge ml={2} colorScheme="blue">{activeFilters}</Badge>}
+            </Text>
+            {activeFilters > 0 && (
+              <IconButton
+                aria-label="Clear filters"
+                icon={<Icon as={FaTimes} />}
+                size="sm"
+                onClick={clearFilters}
+                variant="ghost"
+              />
+            )}
+          </HStack>
+
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
             <Select
               value={selectedLocation}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedLocation(e.target.value)}
-              placeholder="Location"
               size="lg"
             >
-              <option value="All Locations">All Locations</option>
-              <option value="Toronto, ON">Toronto, ON</option>
-              <option value="Virtual">Virtual</option>
+              {locations.map(location => (
+                <option key={location} value={location}>{location}</option>
+              ))}
             </Select>
 
             <Select
               value={selectedRole}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedRole(e.target.value)}
-              placeholder="Role"
               size="lg"
             >
-              <option value="All Roles">All Roles</option>
-              <option value="Admin">Admin</option>
-              <option value="Moderator">Moderator</option>
-              <option value="Member">Member</option>
+              {roles.map(role => (
+                <option key={role} value={role}>{role}</option>
+              ))}
             </Select>
 
             <Select
               value={selectedCategory}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCategory(e.target.value)}
-              placeholder="Category"
               size="lg"
             >
-              <option value="All Categories">All Categories</option>
-              <option value="Technology">Technology</option>
-              <option value="Professional">Professional</option>
-              <option value="Social">Social</option>
-              <option value="Gaming">Gaming</option>
-              <option value="Sports">Sports</option>
-              <option value="Arts">Arts</option>
-              <option value="Education">Education</option>
-              <option value="Wellness">Wellness</option>
-              <option value="Food">Food</option>
-              <option value="Music">Music</option>
-              <option value="Outdoors">Outdoors</option>
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
             </Select>
           </SimpleGrid>
         </Box>
@@ -112,7 +159,11 @@ const MyGroups = ({ groups }: MyGroupsProps) => {
         ) : (
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             {filteredGroups.map(group => (
-              <GroupCard key={group.id} group={group} />
+              <GroupCard 
+                key={group.id} 
+                group={group} 
+                showRole={true}
+              />
             ))}
           </SimpleGrid>
         )}

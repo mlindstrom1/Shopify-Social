@@ -42,8 +42,109 @@ export const isEventPast = (event: Event): boolean => {
   return eventDate < new Date();
 }
 
+// Past events
+export const pastEvents: Event[] = [
+  {
+    id: "p1",
+    title: "Tech Meetup: AI & Machine Learning",
+    description: "Join us for an evening of discussions about the latest in AI and Machine Learning. Network with fellow tech enthusiasts!",
+    date: "2024-03-15T18:30:00Z",
+    endDate: "2024-03-15T21:30:00Z",
+    location: "Toronto, ON",
+    venue: {
+      name: "Innovation Hub",
+      address: "456 Tech Avenue",
+      city: "Toronto, ON",
+      coordinates: {
+        lat: 43.6532,
+        lng: -79.3832
+      }
+    },
+    type: "Technology",
+    privacy: "public",
+    status: "past",
+    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800",
+    attendees: 85,
+    maxAttendees: 100,
+    currentAttendees: 85,
+    organizer: "Sarah Chen",
+    topics: ["AI", "Machine Learning", "Technology"],
+    tags: ["Tech", "AI", "ML", "Networking"],
+    createdAt: "2024-01-15T10:00:00Z",
+    updatedAt: "2024-02-16T10:00:00Z"
+  },
+  {
+    id: "p2",
+    title: "Photography Workshop: Urban Landscapes",
+    description: "Learn the art of urban photography in this hands-on workshop. Bring your camera and creativity!",
+    date: "2024-03-20T14:00:00Z",
+    endDate: "2024-03-20T17:00:00Z",
+    location: "Toronto, ON",
+    venue: {
+      name: "Downtown Arts Center",
+      address: "789 Creative Street",
+      city: "Toronto, ON",
+      coordinates: {
+        lat: 43.6542,
+        lng: -79.3842
+      }
+    },
+    type: "Arts",
+    privacy: "public",
+    status: "past",
+    image: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800",
+    attendees: 20,
+    maxAttendees: 20,
+    currentAttendees: 20,
+    organizer: "Chris Lee",
+    price: {
+      amount: 45,
+      currency: "USD",
+      refundPolicy: "No refunds for past events"
+    },
+    topics: ["Photography", "Urban", "Creative Arts"],
+    tags: ["Photography", "Urban", "Creative", "Workshop"],
+    createdAt: "2024-02-01T10:00:00Z",
+    updatedAt: "2024-03-02T10:00:00Z"
+  },
+  {
+    id: "p3",
+    title: "Startup Networking Mixer",
+    description: "Connect with fellow entrepreneurs and investors in Toronto's startup ecosystem.",
+    date: "2024-03-25T18:00:00Z",
+    endDate: "2024-03-25T21:00:00Z",
+    location: "Toronto, ON",
+    venue: {
+      name: "The Startup Hub",
+      address: "101 Innovation Drive",
+      city: "Toronto, ON",
+      coordinates: {
+        lat: 43.6552,
+        lng: -79.3852
+      }
+    },
+    type: "Business",
+    privacy: "public",
+    status: "past",
+    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800",
+    attendees: 120,
+    maxAttendees: 150,
+    currentAttendees: 120,
+    organizer: "Mark Johnson",
+    price: {
+      amount: 25,
+      currency: "USD",
+      refundPolicy: "No refunds for past events"
+    },
+    topics: ["Startups", "Networking", "Business"],
+    tags: ["Business", "Networking", "Startups", "Tech"],
+    createdAt: "2024-02-10T10:00:00Z",
+    updatedAt: "2024-03-11T10:00:00Z"
+  }
+];
+
 // Future/Upcoming events
-const upcomingEvents: Event[] = [
+export const upcomingEvents: Event[] = [
   {
     id: "1",
     title: "Board Game Night",
@@ -204,381 +305,172 @@ const upcomingEvents: Event[] = [
     privacy: "public",
     status: "upcoming",
     image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800",
-    attendees: 8,
+    attendees: 10,
     maxAttendees: 12,
-    currentAttendees: 8,
+    currentAttendees: 10,
     organizer: "Marco Rossi",
     price: {
       amount: 75,
       currency: "USD",
-      refundPolicy: "Full refund up to 72 hours before the event"
+      refundPolicy: "Full refund up to 48 hours before the event"
     },
-    topics: ["Cooking", "Italian Food", "Pasta Making"],
-    guidelines: ["No experience needed", "All ingredients provided", "Bring containers for leftovers"],
-    tags: ["Cooking", "Italian", "Pasta", "Food"],
+    topics: ["Cooking", "Italian Cuisine", "Pasta Making"],
+    guidelines: ["No experience needed", "All ingredients provided", "Bring an apron"],
+    tags: ["Cooking", "Italian", "Food", "Workshop"],
     createdAt: "2024-03-22T10:00:00Z",
     updatedAt: "2024-03-22T10:00:00Z"
   },
   {
     id: "6",
-    title: "Jazz in the Park",
-    description: "An evening of live jazz music in the park. Bring your blankets and picnic baskets for a relaxing evening under the stars.",
-    date: "2025-07-10T18:00:00Z",
-    endDate: "2025-07-10T21:00:00Z",
+    title: "Web Development Workshop: React & TypeScript",
+    description: "Dive deep into modern web development with React and TypeScript. Perfect for intermediate developers looking to level up their skills.",
+    date: "2025-07-10T09:00:00Z",
+    endDate: "2025-07-10T17:00:00Z",
     location: "Toronto, ON",
     venue: {
-      name: "Trinity Bellwoods Park",
-      address: "790 Queen Street West",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6468,
-        lng: -79.4118
-      }
-    },
-    type: "Music",
-    privacy: "public",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800",
-    attendees: 200,
-    maxAttendees: 500,
-    currentAttendees: 200,
-    organizer: "Toronto Jazz Society",
-    price: {
-      amount: 0,
-      currency: "USD",
-      refundPolicy: "Free event"
-    },
-    topics: ["Jazz", "Live Music", "Outdoor Events"],
-    guidelines: ["Bring seating", "No glass containers", "Family friendly"],
-    tags: ["Music", "Jazz", "Outdoor", "Free"],
-    createdAt: "2024-03-25T10:00:00Z",
-    updatedAt: "2024-03-25T10:00:00Z"
-  },
-  {
-    id: "7",
-    title: "Photography Workshop: Urban Landscapes",
-    description: "Learn the art of urban landscape photography. Perfect for beginners and intermediate photographers looking to improve their skills.",
-    date: "2025-07-15T14:00:00Z",
-    endDate: "2025-07-15T17:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "Downtown Photography Studio",
-      address: "456 King Street West",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6447,
-        lng: -79.3955
-      }
-    },
-    type: "Arts",
-    privacy: "public",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800",
-    attendees: 15,
-    maxAttendees: 20,
-    currentAttendees: 15,
-    organizer: "Toronto Photography Club",
-    price: {
-      amount: 45,
-      currency: "USD",
-      refundPolicy: "Full refund up to 48 hours before the event"
-    },
-    topics: ["Photography", "Urban Landscapes", "Creative Arts"],
-    guidelines: ["Bring your camera", "Any skill level welcome", "Outdoor walking involved"],
-    tags: ["Photography", "Workshop", "Arts", "Urban"],
-    createdAt: "2024-03-26T10:00:00Z",
-    updatedAt: "2024-03-26T10:00:00Z"
-  },
-  {
-    id: "8",
-    title: "Social Tennis Mixer",
-    description: "Join us for a fun tennis mixer! All skill levels welcome. Meet new players and enjoy some friendly matches.",
-    date: "2025-07-18T10:00:00Z",
-    endDate: "2025-07-18T13:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "City Tennis Club",
-      address: "789 Court Avenue",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6657,
-        lng: -79.3845
-      }
-    },
-    type: "Sports",
-    privacy: "public",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?w=800",
-    attendees: 20,
-    maxAttendees: 24,
-    currentAttendees: 20,
-    organizer: "Toronto Tennis Club",
-    price: {
-      amount: 15,
-      currency: "USD",
-      refundPolicy: "Full refund up to 24 hours before the event"
-    },
-    topics: ["Tennis", "Social Sports", "Fitness"],
-    guidelines: ["Bring your racquet", "Tennis shoes required", "All levels welcome"],
-    tags: ["Tennis", "Sports", "Social", "Active"],
-    createdAt: "2024-03-27T10:00:00Z",
-    updatedAt: "2024-03-27T10:00:00Z"
-  },
-  {
-    id: "9",
-    title: "Sunset Yoga in the Park",
-    description: "End your day with a relaxing yoga session in the park. Perfect for all skill levels, with amazing city views.",
-    date: "2025-07-20T19:00:00Z",
-    endDate: "2025-07-20T20:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "High Park",
-      address: "1873 Bloor Street West",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6465,
-        lng: -79.4637
-      }
-    },
-    type: "Wellness",
-    privacy: "public",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800",
-    attendees: 25,
-    maxAttendees: 30,
-    currentAttendees: 25,
-    organizer: "Mindful Movement TO",
-    price: {
-      amount: 10,
-      currency: "USD",
-      refundPolicy: "Full refund up to 24 hours before the event"
-    },
-    topics: ["Yoga", "Wellness", "Outdoor Fitness"],
-    guidelines: ["Bring your mat", "Wear comfortable clothing", "All levels welcome"],
-    tags: ["Yoga", "Wellness", "Outdoor", "Sunset"],
-    createdAt: "2024-03-28T10:00:00Z",
-    updatedAt: "2024-03-28T10:00:00Z"
-  }
-];
-
-// Past events
-const pastEvents: Event[] = [
-  {
-    id: "past-1",
-    title: "Winter Board Game Championship",
-    description: "Our winter board game championship was a huge success! Players competed in various strategy games and built great connections.",
-    date: "2024-11-15T19:00:00Z",
-    endDate: "2024-11-15T22:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "The Dice Box Cafe",
-      address: "123 Gaming Street",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6532,
-        lng: -79.3832
-      }
-    },
-    type: "Games",
-    privacy: "public",
-    status: "past",
-    image: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=800",
-    attendees: 45,
-    maxAttendees: 50,
-    currentAttendees: 45,
-    organizer: "Mike Chen",
-    price: {
-      amount: 0,
-      currency: "USD",
-      refundPolicy: "Full refund up to 24 hours before the event"
-    },
-    topics: ["Board Games", "Strategy Games", "Social Gaming"],
-    guidelines: ["Fair Play", "Respect All Players", "Have Fun"],
-    tags: ["Board Games", "Strategy Games", "Social Gaming", "Card Games"],
-    createdAt: "2024-02-15T10:00:00Z",
-    updatedAt: "2024-03-16T10:00:00Z"
-  },
-  {
-    id: "past-2",
-    title: "Spring Hiking Adventure",
-    description: "We explored the beautiful trails and enjoyed the spring weather together. A great day of outdoor activity and socializing!",
-    date: "2024-11-10T09:00:00Z",
-    endDate: "2024-11-10T13:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "Rouge Valley Trail",
-      address: "303 Valley Road",
+      name: "Code Academy",
+      address: "303 Developer Lane",
       city: "Toronto, ON",
       coordinates: {
         lat: 43.6582,
         lng: -79.3872
       }
     },
-    type: "Outdoors",
+    type: "Technology",
     privacy: "public",
-    status: "past",
-    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800",
+    status: "upcoming",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
     attendees: 25,
     maxAttendees: 30,
     currentAttendees: 25,
-    organizer: "Sarah Martinez",
+    organizer: "Alex Rivera",
     price: {
-      amount: 0,
+      amount: 150,
       currency: "USD",
-      refundPolicy: "Full refund up to 24 hours before the event"
+      refundPolicy: "Full refund up to 7 days before the event"
     },
-    topics: ["Hiking", "Outdoors", "Nature"],
-    guidelines: ["Wear proper footwear", "Bring water", "Be prepared for weather"],
-    tags: ["Hiking", "Outdoors", "Nature", "Active"],
-    createdAt: "2024-02-10T10:00:00Z",
-    updatedAt: "2024-03-11T10:00:00Z"
+    topics: ["Web Development", "React", "TypeScript"],
+    guidelines: ["Bring your laptop", "Basic JavaScript knowledge required", "Install Node.js beforehand"],
+    tags: ["Web Dev", "React", "TypeScript", "Workshop"],
+    createdAt: "2024-03-28T10:00:00Z",
+    updatedAt: "2024-03-28T10:00:00Z"
   },
   {
-    id: "past-3",
-    title: "Creative Writing Workshop",
-    description: "An engaging workshop where participants shared their writing and received constructive feedback from fellow writers.",
-    date: "2024-11-05T18:30:00Z",
-    endDate: "2024-11-05T20:30:00Z",
+    id: "7",
+    title: "Summer Yoga in the Park",
+    description: "Start your weekend with an energizing outdoor yoga session. All levels welcome!",
+    date: "2025-07-12T08:00:00Z",
+    endDate: "2025-07-12T09:30:00Z",
     location: "Toronto, ON",
     venue: {
-      name: "City Library",
-      address: "404 Book Street",
+      name: "Trinity Bellwoods Park",
+      address: "790 Queen Street West",
       city: "Toronto, ON",
       coordinates: {
         lat: 43.6592,
         lng: -79.3882
       }
     },
-    type: "Arts",
-    privacy: "public",
-    status: "past",
-    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800",
-    attendees: 15,
-    maxAttendees: 15,
-    currentAttendees: 15,
-    organizer: "Emily Brooks",
-    price: {
-      amount: 20,
-      currency: "USD",
-      refundPolicy: "Full refund up to 48 hours before the event"
-    },
-    topics: ["Writing", "Creative", "Workshop"],
-    guidelines: ["Bring writing materials", "Be ready to share", "Be supportive"],
-    tags: ["Writing", "Creative", "Workshop", "Arts"],
-    createdAt: "2024-02-05T10:00:00Z",
-    updatedAt: "2024-03-06T10:00:00Z"
-  }
-];
-
-// My events (includes both upcoming and past events)
-const myEvents: Event[] = [
-  {
-    id: "my-1",
-    title: "Tech Talk: Future of AI",
-    description: "Join us for an engaging discussion about the future of AI and its impact on our daily lives. Industry experts will share their insights and predictions.",
-    date: "2025-06-15T18:00:00Z",
-    endDate: "2025-06-15T20:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "Innovation Hub",
-      address: "789 Tech Avenue",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6532,
-        lng: -79.3832
-      }
-    },
-    type: "Tech",
+    type: "Wellness",
     privacy: "public",
     status: "upcoming",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800",
-    attendees: 75,
-    maxAttendees: 100,
-    currentAttendees: 75,
-    organizer: "Tech Community TO",
+    image: "https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=800",
+    attendees: 40,
+    maxAttendees: 50,
+    currentAttendees: 40,
+    organizer: "Emma Davis",
     price: {
-      amount: 0,
-      currency: "USD",
-      refundPolicy: "Free event"
-    },
-    topics: ["Technology", "AI", "Innovation"],
-    guidelines: ["Bring your questions", "Be respectful", "Network"],
-    tags: ["Tech", "AI", "Professional", "Networking"],
-    createdAt: "2024-03-15T10:00:00Z",
-    updatedAt: "2024-03-15T10:00:00Z"
-  },
-  {
-    id: "my-2",
-    title: "Community Garden Workshop",
-    description: "Learn sustainable gardening practices and help maintain our community garden. Perfect for beginners and experienced gardeners alike!",
-    date: "2025-06-22T10:00:00Z",
-    endDate: "2025-06-22T12:00:00Z",
-    location: "Toronto, ON",
-    venue: {
-      name: "Community Garden Center",
-      address: "456 Green Street",
-      city: "Toronto, ON",
-      coordinates: {
-        lat: 43.6472,
-        lng: -79.3822
-      }
-    },
-    type: "Workshop",
-    privacy: "public",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=800",
-    attendees: 20,
-    maxAttendees: 25,
-    currentAttendees: 20,
-    organizer: "Green TO",
-    price: {
-      amount: 10,
+      amount: 15,
       currency: "USD",
       refundPolicy: "Full refund up to 24 hours before the event"
     },
-    topics: ["Gardening", "Sustainability", "Community"],
-    guidelines: ["Wear comfortable clothes", "Tools provided", "All levels welcome"],
-    tags: ["Gardening", "Workshop", "Sustainability", "Community"],
-    createdAt: "2024-03-20T10:00:00Z",
-    updatedAt: "2024-03-20T10:00:00Z"
+    topics: ["Yoga", "Outdoor Activities", "Wellness"],
+    guidelines: ["Bring your own mat", "Arrive 10 minutes early", "Weather dependent"],
+    tags: ["Yoga", "Outdoor", "Wellness", "Morning"],
+    createdAt: "2024-03-29T10:00:00Z",
+    updatedAt: "2024-03-29T10:00:00Z"
   },
   {
-    id: "my-past-1",
-    title: "Photography Walk: Urban Architecture",
-    description: "A successful photography walk through Toronto's most iconic architectural landmarks. Great shots and connections were made!",
-    date: "2024-03-15T14:00:00Z",
-    endDate: "2024-03-15T17:00:00Z",
+    id: "8",
+    title: "Music Production Workshop",
+    description: "Learn the basics of music production using industry-standard software. From beat-making to mixing and mastering.",
+    date: "2025-07-15T18:00:00Z",
+    endDate: "2025-07-15T21:00:00Z",
     location: "Toronto, ON",
     venue: {
-      name: "City Hall",
-      address: "100 Queen Street West",
+      name: "Sound Studio TO",
+      address: "404 Music Avenue",
       city: "Toronto, ON",
       coordinates: {
-        lat: 43.6532,
-        lng: -79.3832
+        lat: 43.6602,
+        lng: -79.3892
       }
     },
     type: "Arts",
     privacy: "public",
-    status: "past",
-    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800",
-    attendees: 30,
-    maxAttendees: 35,
-    currentAttendees: 30,
-    organizer: "Toronto Photography Club",
+    status: "upcoming",
+    image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800",
+    attendees: 15,
+    maxAttendees: 20,
+    currentAttendees: 15,
+    organizer: "David Kim",
+    price: {
+      amount: 80,
+      currency: "USD",
+      refundPolicy: "Full refund up to 48 hours before the event"
+    },
+    topics: ["Music Production", "Audio Engineering", "Creative Arts"],
+    guidelines: ["Bring headphones", "Laptop required", "Software will be provided"],
+    tags: ["Music", "Production", "Creative", "Workshop"],
+    createdAt: "2024-03-30T10:00:00Z",
+    updatedAt: "2024-03-30T10:00:00Z"
+  },
+  {
+    id: "9",
+    title: "Blockchain & Web3 Meetup",
+    description: "Discuss the latest developments in blockchain technology and Web3. Network with crypto enthusiasts and developers.",
+    date: "2025-07-18T18:30:00Z",
+    endDate: "2025-07-18T21:30:00Z",
+    location: "Toronto, ON",
+    venue: {
+      name: "Crypto Hub",
+      address: "505 Blockchain Boulevard",
+      city: "Toronto, ON",
+      coordinates: {
+        lat: 43.6612,
+        lng: -79.3902
+      }
+    },
+    type: "Technology",
+    privacy: "public",
+    status: "upcoming",
+    image: "https://images.unsplash.com/photo-1516245834210-c4c142787335?w=800",
+    attendees: 60,
+    maxAttendees: 80,
+    currentAttendees: 60,
+    organizer: "Mike Zhang",
     price: {
       amount: 0,
       currency: "USD",
       refundPolicy: "Free event"
     },
-    topics: ["Photography", "Architecture", "Urban Exploration"],
-    guidelines: ["Bring your camera", "Comfortable walking shoes", "All skill levels"],
-    tags: ["Photography", "Architecture", "Arts", "Walking Tour"],
-    createdAt: "2024-02-15T10:00:00Z",
-    updatedAt: "2024-03-16T10:00:00Z"
+    topics: ["Blockchain", "Web3", "Cryptocurrency"],
+    guidelines: ["All skill levels welcome", "Bring questions", "Network responsibly"],
+    tags: ["Blockchain", "Web3", "Crypto", "Tech"],
+    createdAt: "2024-03-31T10:00:00Z",
+    updatedAt: "2024-03-31T10:00:00Z"
   }
 ];
 
-// Export all events arrays
-export const allEvents: Event[] = [...upcomingEvents, ...pastEvents];
-export { upcomingEvents, pastEvents, myEvents }; 
+// Export all events combined
+export const allEvents = [...upcomingEvents, ...pastEvents];
+
+// Export events for My Events section (include both upcoming and past events)
+export const myEvents = [
+  // Some upcoming events
+  upcomingEvents[0],
+  upcomingEvents[1],
+  // Some past events
+  pastEvents[0],
+  pastEvents[1]
+]; 

@@ -58,10 +58,11 @@ const PrivacySettings: React.FC = () => {
 
   return (
     <Box>
-      <VStack spacing={6} align="stretch">
-        <Box bg={bgColor} p={6} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
+      <Box bg={bgColor} p={8} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
+        <VStack spacing={8} align="stretch">
           <VStack spacing={6} align="stretch">
-            <Heading size="md" mb={2}>Profile Privacy</Heading>
+            <Heading size="md">Profile Privacy</Heading>
+            <Divider />
             
             <FormControl display="flex" alignItems="center">
               <FormLabel mb="0">Profile Visibility</FormLabel>
@@ -94,11 +95,10 @@ const PrivacySettings: React.FC = () => {
               />
             </FormControl>
           </VStack>
-        </Box>
 
-        <Box bg={bgColor} p={6} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
           <VStack spacing={6} align="stretch">
-            <Heading size="md" mb={2}>Group Privacy</Heading>
+            <Heading size="md">Group Privacy</Heading>
+            <Divider />
 
             <FormControl display="flex" alignItems="center">
               <FormLabel mb="0">Default Group Visibility</FormLabel>
@@ -113,9 +113,7 @@ const PrivacySettings: React.FC = () => {
               </HStack>
             </FormControl>
 
-            <Divider />
-
-            <Text fontWeight="medium" mb={2}>Individual Group Privacy</Text>
+            <Text fontSize="lg" fontWeight="semibold" mb={2}>Individual Group Privacy</Text>
             <VStack spacing={4} align="stretch">
               {Object.entries(groupVisibilities).map(([groupName, visibility]) => (
                 <FormControl key={groupName} display="flex" alignItems="center">
@@ -133,11 +131,10 @@ const PrivacySettings: React.FC = () => {
               ))}
             </VStack>
           </VStack>
-        </Box>
 
-        <Box bg={bgColor} p={6} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
           <VStack spacing={6} align="stretch">
-            <Heading size="md" mb={2}>Event Privacy</Heading>
+            <Heading size="md">Event Privacy</Heading>
+            <Divider />
 
             <FormControl display="flex" alignItems="center">
               <FormLabel mb="0">Default Event Post Visibility</FormLabel>
@@ -152,9 +149,7 @@ const PrivacySettings: React.FC = () => {
               </HStack>
             </FormControl>
 
-            <Divider />
-
-            <Text fontWeight="medium" mb={2}>Individual Event Privacy</Text>
+            <Text fontSize="lg" fontWeight="semibold" mb={2}>Individual Event Privacy</Text>
             <VStack spacing={4} align="stretch">
               {Object.entries(eventPostVisibilities).map(([eventName, visibility]) => (
                 <FormControl key={eventName} display="flex" alignItems="center">
@@ -172,24 +167,27 @@ const PrivacySettings: React.FC = () => {
               ))}
             </VStack>
           </VStack>
-        </Box>
 
-        <Button 
-          bgGradient="linear(to-r, blue.400, blue.500)"
-          _hover={{
-            bgGradient: "linear(to-r, blue.500, blue.600)"
-          }}
-          color="white"
-          size="lg"
-          onClick={handleSaveChanges}
-          alignSelf="center"
-          border="none"
-          _focus={{ boxShadow: 'none' }}
-          borderRadius="lg"
-        >
-          Save Changes
-        </Button>
-      </VStack>
+          <Divider />
+
+          <Button 
+            bg="blue.500"
+            _hover={{
+              bg: "blue.600"
+            }}
+            color="white"
+            size="md"
+            onClick={handleSaveChanges}
+            alignSelf="center"
+            border="none"
+            _focus={{ boxShadow: 'none' }}
+            borderRadius="lg"
+            mt={4}
+          >
+            Save Changes
+          </Button>
+        </VStack>
+      </Box>
     </Box>
   );
 };

@@ -13,9 +13,11 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Text
+  Text,
+  Button,
+  HStack
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import EventCard from './EventCard'
 import { Event, isEventPast } from './events'
@@ -32,6 +34,22 @@ const MyEvents = ({ events, locations }: MyEventsProps) => {
   const [selectedLocation, setSelectedLocation] = useState('All Locations')
   const [selectedDate] = useState('All Dates')
   const [sortBy, setSortBy] = useState('date-asc')
+  const [activeFilters, setActiveFilters] = useState(0)
+
+  const clearFilters = () => {
+    setEventType('all');
+    setSelectedLocation('All Locations');
+    setSortBy('date-asc');
+  };
+
+  // Update active filters count
+  useEffect(() => {
+    let count = 0;
+    if (eventType !== 'all') count++;
+    if (selectedLocation !== 'All Locations') count++;
+    if (sortBy !== 'date-asc') count++;
+    setActiveFilters(count);
+  }, [eventType, selectedLocation, sortBy]);
 
   const filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -65,6 +83,18 @@ const MyEvents = ({ events, locations }: MyEventsProps) => {
               pr="4.5rem"
             />
           </InputGroup>
+
+          <HStack mb={0} justify="flex-end">
+            {activeFilters > 0 && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={clearFilters}
+              >
+                Clear All
+              </Button>
+            )}
+          </HStack>
 
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
             <Select

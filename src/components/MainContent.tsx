@@ -16,6 +16,14 @@ import ProfileSettings from './ProfileSettings'
 import NotificationSettings from './NotificationSettings'
 import PrivacySettings from './PrivacySettings'
 import HelpButton from './HelpButton'
+import { exploreGroups } from './ExploreGroups'
+
+// Filter groups where the user is a member, admin, or moderator
+const myGroups = exploreGroups.filter(group => {
+  // For now, we'll include groups where the user has a role
+  // Later this can be connected to actual user data
+  return group.role === 'member' || group.role === 'admin' || group.role === 'moderator'
+})
 
 interface MainContentProps {
   isNotificationsOpen: boolean;
@@ -39,7 +47,7 @@ const MainContent = ({ isNotificationsOpen, onNotificationsOpen }: MainContentPr
         </Route>
         <Route path="/groups">
           <Route path="explore-groups" element={<SectionContent path="/groups"><ExploreGroups /></SectionContent>} />
-          <Route path="my-groups" element={<SectionContent path="/groups"><MyGroups groups={[]} /></SectionContent>} />
+          <Route path="my-groups" element={<SectionContent path="/groups"><MyGroups groups={myGroups} /></SectionContent>} />
           <Route path="create-group" element={<SectionContent path="/groups"><CreateGroup /></SectionContent>} />
           <Route path=":id" element={<GroupDetails />} />
         </Route>

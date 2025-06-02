@@ -42,7 +42,7 @@ export const exploreGroups: Group[] = [
     location: "Toronto, ON",
     meetingFrequency: "Weekly",
     organizer: "Sarah Chen",
-    role: "member"
+    role: "admin"
   },
   {
     id: "2",
@@ -54,7 +54,7 @@ export const exploreGroups: Group[] = [
     location: "Toronto, ON",
     meetingFrequency: "Bi-weekly",
     organizer: "Alex Rodriguez",
-    role: "member"
+    role: "moderator"
   },
   {
     id: "3",
@@ -150,7 +150,7 @@ export const exploreGroups: Group[] = [
     location: "Toronto, ON",
     meetingFrequency: "Bi-weekly",
     organizer: "Michael Chang",
-    role: "member"
+    role: "moderator"
   },
   {
     id: "11",
@@ -234,7 +234,7 @@ export const exploreGroups: Group[] = [
     location: "Toronto, ON",
     meetingFrequency: "Weekly",
     organizer: "David Kim",
-    role: "member"
+    role: "admin"
   },
   {
     id: "18",

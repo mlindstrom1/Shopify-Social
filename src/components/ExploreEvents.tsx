@@ -58,7 +58,6 @@ const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
   const [eventType, setEventType] = useState('All Types');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [sortBy, setSortBy] = useState('date-asc');
-  const [showFilters, setShowFilters] = useState(true);
   const [activeFilters, setActiveFilters] = useState(0);
 
   const clearSearch = () => setSearchTerm('');
@@ -138,15 +137,7 @@ const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
             )}
           </InputGroup>
 
-          <HStack mb={4} justify="space-between">
-            <Button
-              leftIcon={<Icon as={FaFilter} />}
-              onClick={() => setShowFilters(!showFilters)}
-              variant="ghost"
-              size="sm"
-            >
-              Filters {activeFilters > 0 && <Badge ml={2} colorScheme="blue">{activeFilters}</Badge>}
-            </Button>
+          <HStack mb={0} justify="flex-end">
             {activeFilters > 0 && (
               <Button
                 size="sm"
@@ -158,40 +149,38 @@ const ExploreEvents = ({ events = [] }: ExploreEventsProps) => {
             )}
           </HStack>
 
-          {showFilters && (
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
-              <Select
-                value={eventType}
-                onChange={(e) => setEventType(e.target.value)}
-                size="lg"
-              >
-                {eventTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </Select>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+            <Select
+              value={eventType}
+              onChange={(e) => setEventType(e.target.value)}
+              size="lg"
+            >
+              {eventTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </Select>
 
-              <Select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
-                size="lg"
-              >
-                {locations.map(location => (
-                  <option key={location} value={location}>{location}</option>
-                ))}
-              </Select>
+            <Select
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              size="lg"
+            >
+              {locations.map(location => (
+                <option key={location} value={location}>{location}</option>
+              ))}
+            </Select>
 
-              <Select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                size="lg"
-              >
-                <option value="date-asc">Date (Earliest First)</option>
-                <option value="date-desc">Date (Latest First)</option>
-                <option value="title-asc">Title (A-Z)</option>
-                <option value="title-desc">Title (Z-A)</option>
-              </Select>
-            </SimpleGrid>
-          )}
+            <Select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              size="lg"
+            >
+              <option value="date-asc">Date (Earliest First)</option>
+              <option value="date-desc">Date (Latest First)</option>
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+            </Select>
+          </SimpleGrid>
         </Box>
 
         <Tabs variant="soft-rounded" colorScheme="green">

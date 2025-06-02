@@ -247,16 +247,28 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ filter = 'all', showHeader 
     }
   }
 
-  const getPrivacyColor = (privacy: ActivityPost['privacy']) => {
+  const getPrivacyBadgeProps = (privacy: ActivityPost['privacy']) => {
     switch (privacy) {
       case 'Public':
-        return 'green'
+        return {
+          bgGradient: 'linear(to-r, green.400, teal.400)',
+          color: 'white'
+        }
       case 'Members Only':
-        return 'blue'
+        return {
+          bgGradient: 'linear(to-r, blue.400, cyan.400)',
+          color: 'white'
+        }
       case 'Private':
-        return 'red'
+        return {
+          bgGradient: 'linear(to-r, red.400, pink.400)',
+          color: 'white'
+        }
       default:
-        return 'gray'
+        return {
+          bgGradient: 'linear(to-r, gray.400, gray.500)',
+          color: 'white'
+        }
     }
   }
 
@@ -282,7 +294,13 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ filter = 'all', showHeader 
                     <Icon as={getActivityIcon(post.type)} color="blue.500" />
                   )}
                   <Spacer />
-                  <Badge colorScheme={getPrivacyColor(post.privacy)} size="sm">
+                  <Badge 
+                    {...getPrivacyBadgeProps(post.privacy)}
+                    borderRadius="full"
+                    px={2}
+                    py={0.5}
+                    fontSize="xs"
+                  >
                     {post.privacy}
                   </Badge>
                 </HStack>

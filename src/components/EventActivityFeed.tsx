@@ -72,16 +72,28 @@ const EventActivityFeed = ({ activities, onLoadMore, hasMore, isLoading }: Event
     }
   }
 
-  const getPrivacyColor = (privacy: Activity['privacy']) => {
+  const getPrivacyBadgeProps = (privacy: Activity['privacy']) => {
     switch (privacy) {
       case 'Public':
-        return 'green'
+        return {
+          bgGradient: 'linear(to-r, green.400, teal.400)',
+          color: 'white'
+        }
       case 'Members Only':
-        return 'blue'
+        return {
+          bgGradient: 'linear(to-r, blue.400, cyan.400)',
+          color: 'white'
+        }
       case 'Private':
-        return 'red'
+        return {
+          bgGradient: 'linear(to-r, red.400, pink.400)',
+          color: 'white'
+        }
       default:
-        return 'gray'
+        return {
+          bgGradient: 'linear(to-r, gray.400, gray.500)',
+          color: 'white'
+        }
     }
   }
 
@@ -103,7 +115,13 @@ const EventActivityFeed = ({ activities, onLoadMore, hasMore, isLoading }: Event
                   <Text fontWeight="bold">{activity.user.name}</Text>
                   <Text color={textColor}>{getActivityText(activity)}</Text>
                   <Spacer />
-                  <Badge colorScheme={getPrivacyColor(activity.privacy)} size="sm">
+                  <Badge 
+                    {...getPrivacyBadgeProps(activity.privacy)}
+                    borderRadius="full"
+                    px={2}
+                    py={0.5}
+                    fontSize="xs"
+                  >
                     {activity.privacy}
                   </Badge>
                 </HStack>
