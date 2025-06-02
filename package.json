@@ -2,6 +2,7 @@
   "name": "nested-tabs-app",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://mlindstrom1.github.io/Shopify-Social/",
   "type": "module",
   "engines": {
     "node": ">=18.20.0"
@@ -10,7 +11,7 @@
     "dev": "vite",
     "dev:shopify": "shopify app dev",
     "build": "tsc --noEmit && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {

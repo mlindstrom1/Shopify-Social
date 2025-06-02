@@ -32,11 +32,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Fix asset paths
+      - name: Prepare for deployment
         run: |
           cd dist
-          find . -type f -name "*.html" -exec sed -i 's|src="/assets/|src="/Shopify-Social/assets/|g' {} +
-          find . -type f -name "*.html" -exec sed -i 's|href="/assets/|href="/Shopify-Social/assets/|g' {} +
+          cp index.html 404.html
+          touch .nojekyll
+          find . -type f -name "*.html" -exec sed -i 's|src="/assets/|src="./assets/|g' {} +
+          find . -type f -name "*.html" -exec sed -i 's|href="/assets/|href="./assets/|g' {} +
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

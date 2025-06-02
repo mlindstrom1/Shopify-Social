@@ -13,7 +13,7 @@ function htmlPlugin(): Plugin {
       // Add base URL to asset paths
       return html.replace(
         /(src|href)="\/assets\//g,
-        `$1="/Shopify-Social/assets/`
+        `$1="./assets/`
       )
     }
   }
@@ -22,7 +22,7 @@ function htmlPlugin(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), htmlPlugin()],
-  base: '/Shopify-Social/',
+  base: './',
   define: {
     global: 'globalThis',
   },
