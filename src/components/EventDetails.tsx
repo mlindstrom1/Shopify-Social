@@ -25,7 +25,6 @@ import {
   FaCalendarAlt, 
   FaMapMarkerAlt, 
   FaUsers, 
-  FaArrowLeft, 
   FaExternalLinkAlt,
   FaClock,
   FaInfoCircle,
@@ -233,7 +232,7 @@ const EventDetails = () => {
             {/* Event Feed Section */}
             <Box>
               <Heading size="lg" mb={6}>Event Activity</Heading>
-              <EventFeed eventId={event.id} eventTitle={event.title} />
+              <EventFeed eventTitle={event.title} />
             </Box>
           </VStack>
         </GridItem>

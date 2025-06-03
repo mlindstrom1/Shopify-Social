@@ -13,7 +13,7 @@ import {
   Image,
   SimpleGrid
 } from '@chakra-ui/react'
-import { FaUserPlus, FaComment, FaThumbsUp, FaShare, FaCalendarCheck, FaCamera, FaHeart } from 'react-icons/fa'
+import { FaUserPlus, FaComment, FaShare, FaCalendarCheck, FaCamera, FaHeart } from 'react-icons/fa'
 import { format } from 'date-fns'
 import { useState } from 'react'
 
@@ -34,12 +34,11 @@ interface EventActivity {
 }
 
 interface EventFeedProps {
-  eventId: string;
   eventTitle: string;
 }
 
 // Mock data for event activities
-const generateEventActivities = (eventId: string, eventTitle: string): EventActivity[] => [
+const generateEventActivities = (eventTitle: string): EventActivity[] => [
   {
     id: '1',
     type: 'attend',
@@ -130,9 +129,9 @@ const generateEventActivities = (eventId: string, eventTitle: string): EventActi
   }
 ];
 
-const EventFeed: React.FC<EventFeedProps> = ({ eventId, eventTitle }) => {
+const EventFeed: React.FC<EventFeedProps> = ({ eventTitle }) => {
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
-  const [activities] = useState<EventActivity[]>(generateEventActivities(eventId, eventTitle));
+  const [activities] = useState<EventActivity[]>(generateEventActivities(eventTitle));
   
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
