@@ -34,23 +34,28 @@ import {
 import { useParams, useNavigate } from 'react-router-dom'
 import { allEvents } from './events'
 import EventFeed from './EventFeed'
+import CreateEventButton from './CreateEventButton'
 
-// Import the getEventTypeColor function
+// Update the getEventTypeColor function to match EventCard.tsx
 const getEventTypeColor = (type: string) => {
-  switch (type.toLowerCase()) {
-    case 'workshop':
-      return 'linear(to-r, blue.400, purple.500)'
-    case 'networking':
-      return 'linear(to-r, green.400, teal.500)'
-    case 'social':
-      return 'linear(to-r, pink.400, red.500)'
-    case 'meetup':
-      return 'linear(to-r, orange.400, yellow.500)'
-    case 'conference':
-      return 'linear(to-r, purple.400, pink.500)'
-    default:
-      return 'linear(to-r, gray.400, gray.600)'
+  const colors = {
+    Workshop: 'linear(to-r, purple.400, pink.400)',
+    Professional: 'linear(to-r, blue.400, cyan.400)',
+    Games: 'linear(to-r, orange.400, yellow.400)',
+    Social: 'linear(to-r, green.400, teal.400)',
+    Tech: 'linear(to-r, red.400, orange.400)',
+    Sports: 'linear(to-r, blue.500, cyan.500)',
+    Arts: 'linear(to-r, pink.400, red.400)',
+    Crafts: 'linear(to-r, teal.400, green.400)',
+    Food: 'linear(to-r, red.500, orange.400)',
+    Music: 'linear(to-r, purple.500, pink.500)',
+    Outdoors: 'linear(to-r, green.500, teal.500)',
+    Wellness: 'linear(to-r, cyan.400, blue.400)',
+    Educational: 'linear(to-r, blue.400, purple.400)',
+    Business: 'linear(to-r, blue.500, cyan.400)',
+    Other: 'linear(to-r, purple.400, blue.400)'
   }
+  return colors[type as keyof typeof colors] || colors.Other
 }
 
 const EventDetails = () => {
@@ -76,9 +81,15 @@ const EventDetails = () => {
 
   return (
     <Container maxW="container.xl" p={8}>
-      <Button mb={4} onClick={() => navigate(-1)} leftIcon={<Icon as={FaCalendarAlt} />}>
-        Back to Events
-      </Button>
+      {/* Create Event Button */}
+      <Box position="relative">
+        <Button mb={4} onClick={() => navigate(-1)} leftIcon={<Icon as={FaCalendarAlt} />}>
+          Back to Events
+        </Button>
+        <Box position="absolute" top={0} right={0}>
+          <CreateEventButton />
+        </Box>
+      </Box>
 
       <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={8}>
         <GridItem>
@@ -100,9 +111,10 @@ const EventDetails = () => {
                     bgGradient={getEventTypeColor(event.type)}
                     color="white"
                     px={3}
-                    py={1}
+                    py={1.5}
                     borderRadius="full"
-                    fontSize="md"
+                    fontSize="sm"
+                    boxShadow="md"
                   >
                     {event.type}
                   </Badge>
@@ -247,6 +259,8 @@ const EventDetails = () => {
             borderRadius="lg"
             position="sticky"
             top={8}
+            height="fit-content"
+            maxHeight={`calc(400px + 6rem)`} // Match image height + padding
           >
             <VStack spacing={6} align="stretch">
               <Box>
