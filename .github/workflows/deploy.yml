@@ -1,10 +1,9 @@
 name: Build and Deploy to GitHub Pages
 
-# Temporarily disabled while fixing deployment issues
-# on:
-#   push:
-#     branches: [ main ]
-#   workflow_dispatch:
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -27,6 +26,12 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Fix asset paths for GitHub Pages
+        run: |
+          sed -i 's|"/assets/|"/Shopify-Social/assets/|g' dist/index.html
+          sed -i 's|"/favicon.svg|"/Shopify-Social/favicon.svg|g' dist/index.html
+          echo "Fixed asset paths in dist/index.html"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
