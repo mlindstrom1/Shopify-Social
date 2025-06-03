@@ -436,12 +436,11 @@ import {
   withDefaultSize,
   withDefaultVariant,
   withDelay
-} from "./chunk-DNVSLZUJ.js";
+} from "./chunk-7UVIZCEQ.js";
 import "./chunk-UHINIFCJ.js";
 import {
   require_react
 } from "./chunk-W4EHDCLL.js";
-import "./chunk-M24HVFAK.js";
 import {
   __toESM
 } from "./chunk-EWTE5DHJ.js";
