@@ -21,6 +21,12 @@ const HeroSection = () => {
   const textColor = useColorModeValue('gray.700', 'gray.200')
   const headingGradient = 'linear(to-r, pink.500, purple.500, yellow.300)'
 
+  // Dynamic base path for video - works for both localhost and GitHub Pages
+  const getVideoPath = () => {
+    const isGitHubPages = window.location.hostname === 'mlindstrom1.github.io'
+    return isGitHubPages ? '/Shopify-Social/videos/board-game.mp4' : '/videos/board-game.mp4'
+  }
+
   return (
     <Box
       bg={bgGradient}
@@ -132,7 +138,7 @@ const HeroSection = () => {
                 transformOrigin: 'center center'
               }}
             >
-              <source src="/videos/board-game.mp4" type="video/mp4" />
+              <source src={getVideoPath()} type="video/mp4" />
             </video>
           </Box>
 
