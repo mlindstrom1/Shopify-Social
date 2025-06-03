@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="socialGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B866FF"/>
+      <stop offset="50%" stop-color="#FF66B8"/>
+      <stop offset="100%" stop-color="#FFD500"/>
+    </linearGradient>
+  </defs>
+  <!-- Stylized 'S' -->
+  <path d="M25 35c0-6 4.5-11 10-11h30c5.5 0 10 5 10 11s-4.5 11-10 11H35c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5h30c5.5 0 10 5 10 11s-4.5 11-10 11H35c-5.5 0-10-5-10-11" fill="url(#socialGradient)" stroke="none"/>
+</svg> 
