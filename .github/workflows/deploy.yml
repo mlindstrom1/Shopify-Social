@@ -1,9 +1,10 @@
 name: Build and Deploy to GitHub Pages
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+# Temporarily disabled while fixing deployment issues
+# on:
+#   push:
+#     branches: [ main ]
+#   workflow_dispatch:
 
 permissions:
   contents: write
