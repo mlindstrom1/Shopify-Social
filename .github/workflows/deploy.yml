@@ -6,16 +6,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,25 +33,21 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Prepare for deployment
-        run: |
-          cd dist
-          cp index.html 404.html
-          touch .nojekyll
-          # Transform all asset paths to use the repository base
-          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|="/assets/|="/Shopify-Social/assets/|g' {} +
-          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|href="/assets/|href="/Shopify-Social/assets/|g' {} +
-          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|src="/assets/|src="/Shopify-Social/assets/|g' {} +
-          # Transform favicon paths
-          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|href="/favicon.svg"|href="/Shopify-Social/favicon.svg"|g' {} +
-          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec sed -i 's|="/favicon.svg"|="/Shopify-Social/favicon.svg"|g' {} +
-          # Check the final result
-          echo "Final index.html content:"
-          cat index.html
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          folder: dist
-          branch: gh-pages
-          clean: true 
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 

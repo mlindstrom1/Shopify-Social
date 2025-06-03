@@ -1,0 +1,73 @@
+{
+  "hash": "aba8a61d",
+  "configHash": "3f4123a5",
+  "lockfileHash": "58892489",
+  "browserHash": "b505df79",
+  "optimized": {
+    "@emotion/is-prop-valid": {
+      "src": "../../node_modules/@emotion/is-prop-valid/dist/emotion-is-prop-valid.esm.js",
+      "file": "@emotion_is-prop-valid.js",
+      "fileHash": "d02b5f43",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "42d7b6f6",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "93d819c0",
+      "needsInterop": true
+    },
+    "@chakra-ui/react": {
+      "src": "../../node_modules/@chakra-ui/react/dist/esm/index.mjs",
+      "file": "@chakra-ui_react.js",
+      "fileHash": "19be6725",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "356ef842",
+      "needsInterop": false
+    },
+    "react-icons/fa": {
+      "src": "../../node_modules/react-icons/fa/index.mjs",
+      "file": "react-icons_fa.js",
+      "fileHash": "1f394f21",
+      "needsInterop": false
+    },
+    "@chakra-ui/icons": {
+      "src": "../../node_modules/@chakra-ui/icons/dist/esm/index.mjs",
+      "file": "@chakra-ui_icons.js",
+      "fileHash": "a7028bb1",
+      "needsInterop": false
+    },
+    "date-fns": {
+      "src": "../../node_modules/date-fns/index.js",
+      "file": "date-fns.js",
+      "fileHash": "d35acbab",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-DNVSLZUJ": {
+      "file": "chunk-DNVSLZUJ.js"
+    },
+    "chunk-UHINIFCJ": {
+      "file": "chunk-UHINIFCJ.js"
+    },
+    "chunk-W4EHDCLL": {
+      "file": "chunk-W4EHDCLL.js"
+    },
+    "chunk-M24HVFAK": {
+      "file": "chunk-M24HVFAK.js"
+    },
+    "chunk-EWTE5DHJ": {
+      "file": "chunk-EWTE5DHJ.js"
+    }
+  }
+}
