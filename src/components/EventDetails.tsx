@@ -80,260 +80,272 @@ const EventDetails = () => {
   const spotsLeft = maxAttendees - event.currentAttendees
 
   return (
-    <Container maxW="container.xl" p={8}>
-      {/* Create Event Button */}
-      <Box position="relative">
-        <Button mb={4} onClick={() => navigate(-1)} leftIcon={<Icon as={FaCalendarAlt} />}>
-          Back to Events
-        </Button>
-        <Box position="absolute" top={0} right={0}>
-          <CreateEventButton />
+    <>
+      {/* Consistent Create Event Button positioning */}
+      <Box 
+        position="sticky" 
+        top={0} 
+        px={6}
+        zIndex={2}
+        bg={useColorModeValue('white', 'gray.800')}
+      >
+        <Box position="relative" height={0}>
+          <Box position="absolute" top={2} right={0}>
+            <CreateEventButton />
+          </Box>
         </Box>
       </Box>
 
-      <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={8}>
-        <GridItem>
-          <VStack align="stretch" spacing={8}>
-            {/* Main Event Info */}
-            <Box>
-              <Image
-                src={event.image}
-                alt={event.title}
-                height="400px"
-                width="100%"
-                objectFit="cover"
-                borderRadius="lg"
-              />
-              
-              <Box mt={6}>
-                <HStack spacing={4} mb={4}>
-                  <Badge
-                    bgGradient={getEventTypeColor(event.type)}
-                    color="white"
-                    px={3}
-                    py={1.5}
-                    borderRadius="full"
-                    fontSize="sm"
-                    boxShadow="md"
-                  >
-                    {event.type}
-                  </Badge>
-                  {event.topics?.map(topic => (
-                    <Tag key={topic} size="md" variant="subtle" colorScheme="blue">
-                      {topic}
-                    </Tag>
-                  ))}
-                </HStack>
+      <Container maxW="container.xl" p={8}>
+        {/* Back to Events Button */}
+        <Button mb={4} onClick={() => navigate(-1)} leftIcon={<Icon as={FaCalendarAlt} />}>
+          Back to Events
+        </Button>
 
-                <Heading size="xl" mb={4}>{event.title}</Heading>
-
-                <HStack spacing={6} mb={6} color={mutedColor}>
-                  <HStack>
-                    <Icon as={FaUserCircle} />
-                    <Text>Hosted by {event.organizer}</Text>
+        <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={8}>
+          <GridItem>
+            <VStack align="stretch" spacing={8}>
+              {/* Main Event Info */}
+              <Box>
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  height="400px"
+                  width="100%"
+                  objectFit="cover"
+                  borderRadius="lg"
+                />
+                
+                <Box mt={6}>
+                  <HStack spacing={4} mb={4}>
+                    <Badge
+                      bgGradient={getEventTypeColor(event.type)}
+                      color="white"
+                      px={3}
+                      py={1.5}
+                      borderRadius="full"
+                      fontSize="sm"
+                      boxShadow="md"
+                    >
+                      {event.type}
+                    </Badge>
+                    {event.topics?.map(topic => (
+                      <Tag key={topic} size="md" variant="subtle" colorScheme="blue">
+                        {topic}
+                      </Tag>
+                    ))}
                   </HStack>
-                  <HStack>
-                    <Icon as={FaUsers} />
-                    <Text>{event.attendees} attending</Text>
+
+                  <Heading size="xl" mb={4}>{event.title}</Heading>
+
+                  <HStack spacing={6} mb={6} color={mutedColor}>
+                    <HStack>
+                      <Icon as={FaUserCircle} />
+                      <Text>Hosted by {event.organizer}</Text>
+                    </HStack>
+                    <HStack>
+                      <Icon as={FaUsers} />
+                      <Text>{event.attendees} attending</Text>
+                    </HStack>
                   </HStack>
-                </HStack>
 
-                <Box p={6} bg={cardBg} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
-                  <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={6}>
-                    <Box>
-                      <HStack mb={4}>
-                        <Icon as={FaCalendarAlt} color="blue.500" boxSize={5} />
-                        <Box>
-                          <Text fontWeight="bold">Date and Time</Text>
-                          <HStack spacing={2}>
-                            <Text fontWeight="bold">Date:</Text>
-                            <Text color={textColor}>{new Date(event.date).toLocaleDateString('en-US', {
-                              month: 'long',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}</Text>
-                          </HStack>
-                          <HStack spacing={2}>
-                            <Text fontWeight="bold">Time:</Text>
-                            <Text color={textColor}>{new Date(event.date).toLocaleTimeString('en-US', {
-                              hour: 'numeric',
-                              minute: '2-digit',
-                              hour12: true
-                            })}</Text>
-                            {event.endDate && (
-                              <>
-                                <Text color={textColor}>-</Text>
-                                <Text color={textColor}>{new Date(event.endDate).toLocaleTimeString('en-US', {
-                                  hour: 'numeric',
-                                  minute: '2-digit',
-                                  hour12: true
-                                })}</Text>
-                              </>
-                            )}
-                          </HStack>
-                        </Box>
-                      </HStack>
+                  <Box p={6} bg={cardBg} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
+                    <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={6}>
+                      <Box>
+                        <HStack mb={4}>
+                          <Icon as={FaCalendarAlt} color="blue.500" boxSize={5} />
+                          <Box>
+                            <Text fontWeight="bold">Date and Time</Text>
+                            <HStack spacing={2}>
+                              <Text fontWeight="bold">Date:</Text>
+                              <Text color={textColor}>{new Date(event.date).toLocaleDateString('en-US', {
+                                month: 'long',
+                                day: 'numeric',
+                                year: 'numeric'
+                              })}</Text>
+                            </HStack>
+                            <HStack spacing={2}>
+                              <Text fontWeight="bold">Time:</Text>
+                              <Text color={textColor}>{new Date(event.date).toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true
+                              })}</Text>
+                              {event.endDate && (
+                                <>
+                                  <Text color={textColor}>-</Text>
+                                  <Text color={textColor}>{new Date(event.endDate).toLocaleTimeString('en-US', {
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                    hour12: true
+                                  })}</Text>
+                                </>
+                              )}
+                            </HStack>
+                          </Box>
+                        </HStack>
 
-                      <HStack>
-                        <Icon as={FaMapMarkerAlt} color="blue.500" boxSize={5} />
-                        <Box>
-                          <Text fontWeight="bold">Location</Text>
-                          <Text color={textColor}>{event.venue.name}</Text>
-                          <Text color={textColor}>{event.venue.address}</Text>
-                          <Text color={textColor}>{event.venue.city}</Text>
-                        </Box>
-                      </HStack>
-                    </Box>
+                        <HStack>
+                          <Icon as={FaMapMarkerAlt} color="blue.500" boxSize={5} />
+                          <Box>
+                            <Text fontWeight="bold">Location</Text>
+                            <Text color={textColor}>{event.venue.name}</Text>
+                            <Text color={textColor}>{event.venue.address}</Text>
+                            <Text color={textColor}>{event.venue.city}</Text>
+                          </Box>
+                        </HStack>
+                      </Box>
 
-                    <Box>
-                      <HStack mb={4}>
-                        <Icon as={FaClock} color="blue.500" boxSize={5} />
-                        <Box>
-                          <Text fontWeight="bold">Duration</Text>
-                          <Text color={textColor}>
-                            {event.endDate ? 
-                              `${new Date(event.endDate).getHours() - new Date(event.date).getHours()} hours` :
-                              'Duration not specified'}
-                          </Text>
-                        </Box>
-                      </HStack>
-
-                      <HStack>
-                        <Icon as={FaInfoCircle} color="blue.500" boxSize={5} />
-                        <Box>
-                          <Text fontWeight="bold">Price</Text>
-                          <Text color={textColor}>
-                            {event.price ? `$${event.price.amount} ${event.price.currency}` : 'Free'}
-                          </Text>
-                          {event.price?.refundPolicy && (
-                            <Text fontSize="sm" color={mutedColor}>
-                              {event.price.refundPolicy}
+                      <Box>
+                        <HStack mb={4}>
+                          <Icon as={FaClock} color="blue.500" boxSize={5} />
+                          <Box>
+                            <Text fontWeight="bold">Duration</Text>
+                            <Text color={textColor}>
+                              {event.endDate ? 
+                                `${new Date(event.endDate).getHours() - new Date(event.date).getHours()} hours` :
+                                'Duration not specified'}
                             </Text>
-                          )}
-                        </Box>
-                      </HStack>
-                    </Box>
-                  </Grid>
+                          </Box>
+                        </HStack>
+
+                        <HStack>
+                          <Icon as={FaInfoCircle} color="blue.500" boxSize={5} />
+                          <Box>
+                            <Text fontWeight="bold">Price</Text>
+                            <Text color={textColor}>
+                              {event.price ? `$${event.price.amount} ${event.price.currency}` : 'Free'}
+                            </Text>
+                            {event.price?.refundPolicy && (
+                              <Text fontSize="sm" color={mutedColor}>
+                                {event.price.refundPolicy}
+                              </Text>
+                            )}
+                          </Box>
+                        </HStack>
+                      </Box>
+                    </Grid>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
 
-            {/* Event Details */}
-            <Box>
-              <Heading size="lg" mb={4}>About this event</Heading>
-              <Text whiteSpace="pre-line" color={textColor}>
-                {event.description}
-              </Text>
-            </Box>
-
-            {/* Guidelines */}
-            {event.guidelines && (
+              {/* Event Details */}
               <Box>
-                <Heading size="lg" mb={4}>Group Guidelines</Heading>
-                <List spacing={3}>
-                  {event.guidelines.map((guideline, index) => (
-                    <ListItem key={index} display="flex" alignItems="center">
-                      <ListIcon as={FaCheckCircle} color="green.500" />
-                      <Text color={textColor}>{guideline}</Text>
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            )}
-
-            {/* Event Feed Section */}
-            <Box>
-              <Heading size="lg" mb={6}>Event Activity</Heading>
-              <EventFeed eventTitle={event.title} />
-            </Box>
-          </VStack>
-        </GridItem>
-
-        {/* Sidebar */}
-        <GridItem>
-          <Box
-            p={6}
-            bg={cardBg}
-            borderWidth="1px"
-            borderColor={borderColor}
-            borderRadius="lg"
-            position="sticky"
-            top={8}
-            height="fit-content"
-            maxHeight={`calc(400px + 6rem)`} // Match image height + padding
-          >
-            <VStack spacing={6} align="stretch">
-              <Box>
-                <Text fontSize="2xl" fontWeight="bold" mb={2}>
-                  {typeof spotsLeft === 'number' ? `${spotsLeft} spots left` : 'Open attendance'}
+                <Heading size="lg" mb={4}>About this event</Heading>
+                <Text whiteSpace="pre-line" color={textColor}>
+                  {event.description}
                 </Text>
-                <Button 
-                  colorScheme="blue" 
-                  size="lg" 
-                  width="full"
-                  leftIcon={<Icon as={FaUsers} />}
-                >
-                  Attend Event
-                </Button>
               </Box>
 
-              <Box>
-                <Text fontWeight="bold" mb={2}>Attendees ({event.attendees})</Text>
-                <Wrap>
-                  {[...Array(Math.min(8, event.attendees))].map((_, i) => (
-                    <WrapItem key={i}>
-                      <Avatar
-                        size="md"
-                        name={`Attendee ${i + 1}`}
-                        src={`https://i.pravatar.cc/150?u=${i}`}
-                      />
-                    </WrapItem>
-                  ))}
-                  {event.attendees > 8 && (
-                    <WrapItem>
-                      <Box
-                        w="48px"
-                        h="48px"
-                        borderRadius="full"
-                        bg="gray.100"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        color={textColor}
-                      >
-                        +{event.attendees - 8}
-                      </Box>
-                    </WrapItem>
-                  )}
-                </Wrap>
-              </Box>
+              {/* Guidelines */}
+              {event.guidelines && (
+                <Box>
+                  <Heading size="lg" mb={4}>Group Guidelines</Heading>
+                  <List spacing={3}>
+                    {event.guidelines.map((guideline, index) => (
+                      <ListItem key={index} display="flex" alignItems="center">
+                        <ListIcon as={FaCheckCircle} color="green.500" />
+                        <Text color={textColor}>{guideline}</Text>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              )}
 
-              <Divider />
-
+              {/* Event Feed Section */}
               <Box>
-                <Text fontWeight="bold" mb={2}>Share Event</Text>
-                <HStack>
-                  <Button 
-                    variant="outline" 
-                    flex={1}
-                    leftIcon={<Icon as={FaExternalLinkAlt} />}
-                  >
-                    Copy Link
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    flex={1}
-                    leftIcon={<Icon as={FaUsers} />}
-                  >
-                    Share
-                  </Button>
-                </HStack>
+                <Heading size="lg" mb={6}>Event Activity</Heading>
+                <EventFeed eventTitle={event.title} />
               </Box>
             </VStack>
-          </Box>
-        </GridItem>
-      </Grid>
-    </Container>
+          </GridItem>
+
+          {/* Sidebar */}
+          <GridItem>
+            <Box
+              p={6}
+              bg={cardBg}
+              borderWidth="1px"
+              borderColor={borderColor}
+              borderRadius="lg"
+              position="sticky"
+              top={8}
+              height="fit-content"
+              maxHeight={`calc(400px + 6rem)`} // Match image height + padding
+            >
+              <VStack spacing={6} align="stretch">
+                <Box>
+                  <Text fontSize="2xl" fontWeight="bold" mb={2}>
+                    {typeof spotsLeft === 'number' ? `${spotsLeft} spots left` : 'Open attendance'}
+                  </Text>
+                  <Button 
+                    colorScheme="blue" 
+                    size="lg" 
+                    width="full"
+                    leftIcon={<Icon as={FaUsers} />}
+                  >
+                    Attend Event
+                  </Button>
+                </Box>
+
+                <Box>
+                  <Text fontWeight="bold" mb={2}>Attendees ({event.attendees})</Text>
+                  <Wrap>
+                    {[...Array(Math.min(8, event.attendees))].map((_, i) => (
+                      <WrapItem key={i}>
+                        <Avatar
+                          size="md"
+                          name={`Attendee ${i + 1}`}
+                          src={`https://i.pravatar.cc/150?u=${i}`}
+                        />
+                      </WrapItem>
+                    ))}
+                    {event.attendees > 8 && (
+                      <WrapItem>
+                        <Box
+                          w="48px"
+                          h="48px"
+                          borderRadius="full"
+                          bg="gray.100"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          color={textColor}
+                        >
+                          +{event.attendees - 8}
+                        </Box>
+                      </WrapItem>
+                    )}
+                  </Wrap>
+                </Box>
+
+                <Divider />
+
+                <Box>
+                  <Text fontWeight="bold" mb={2}>Share Event</Text>
+                  <HStack>
+                    <Button 
+                      variant="outline" 
+                      flex={1}
+                      leftIcon={<Icon as={FaExternalLinkAlt} />}
+                    >
+                      Copy Link
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      flex={1}
+                      leftIcon={<Icon as={FaUsers} />}
+                    >
+                      Share
+                    </Button>
+                  </HStack>
+                </Box>
+              </VStack>
+            </Box>
+          </GridItem>
+        </Grid>
+      </Container>
+    </>
   )
 }
 
