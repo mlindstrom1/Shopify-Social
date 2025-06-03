@@ -1,217 +1,83 @@
 import {
   Box,
   Container,
-  VStack,
-  Heading,
-  Text,
-  Image,
-  Badge,
-  HStack,
-  Avatar,
-  Button,
-  Textarea,
-  useColorModeValue,
-  Divider,
-  Icon,
   Grid,
   GridItem,
-  Tag,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Button,
+  Avatar,
+  Badge,
+  Icon,
   Wrap,
   WrapItem,
+  useColorModeValue,
+  Divider,
   List,
   ListItem,
-  ListIcon
+  ListIcon,
+  Tag,
+  Image
 } from '@chakra-ui/react'
-import { useState, useEffect } from 'react'
+import { 
+  FaCalendarAlt, 
+  FaMapMarkerAlt, 
+  FaUsers, 
+  FaArrowLeft, 
+  FaExternalLinkAlt,
+  FaClock,
+  FaInfoCircle,
+  FaCheckCircle,
+  FaUserCircle
+} from 'react-icons/fa'
 import { useParams, useNavigate } from 'react-router-dom'
-import { FaUsers, FaMapMarkerAlt, FaCalendar, FaUserCircle, FaClock, FaInfoCircle, FaCheckCircle, FaExternalLinkAlt } from 'react-icons/fa'
 import { allEvents } from './events'
+import EventFeed from './EventFeed'
 
 // Import the getEventTypeColor function
 const getEventTypeColor = (type: string) => {
-  const colors = {
-    Workshop: 'linear(to-r, purple.400, pink.400)',
-    Professional: 'linear(to-r, blue.400, cyan.400)',
-    Games: 'linear(to-r, orange.400, yellow.400)',
-    Social: 'linear(to-r, green.400, teal.400)',
-    Tech: 'linear(to-r, red.400, orange.400)',
-    Sports: 'linear(to-r, blue.500, cyan.500)',
-    Arts: 'linear(to-r, pink.400, red.400)',
-    Crafts: 'linear(to-r, teal.400, green.400)',
-    Food: 'linear(to-r, yellow.400, orange.400)',
-    Music: 'linear(to-r, purple.500, pink.500)',
-    Outdoors: 'linear(to-r, green.500, teal.500)',
-    Wellness: 'linear(to-r, cyan.400, blue.400)'
+  switch (type.toLowerCase()) {
+    case 'workshop':
+      return 'linear(to-r, blue.400, purple.500)'
+    case 'networking':
+      return 'linear(to-r, green.400, teal.500)'
+    case 'social':
+      return 'linear(to-r, pink.400, red.500)'
+    case 'meetup':
+      return 'linear(to-r, orange.400, yellow.500)'
+    case 'conference':
+      return 'linear(to-r, purple.400, pink.500)'
+    default:
+      return 'linear(to-r, gray.400, gray.600)'
   }
-  return colors[type as keyof typeof colors] || 'linear(to-r, gray.400, gray.500)'
-}
-
-interface Comment {
-  id: string
-  author: string
-  content: string
-  timestamp: string
-  replies: Comment[]
 }
 
 const EventDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const event = allEvents.find(e => e.id === id)
-  const [comments, setComments] = useState<Comment[]>([])
-  const [newComment, setNewComment] = useState('')
-  const [replyingTo, setReplyingTo] = useState<string | null>(null)
-  const [replyContent, setReplyContent] = useState('')
 
   const cardBg = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
   const textColor = useColorModeValue('gray.600', 'gray.300')
   const mutedColor = useColorModeValue('gray.500', 'gray.400')
 
-  // Load comments from localStorage
-  useEffect(() => {
-    const savedComments = localStorage.getItem(`event-${id}-comments`)
-    if (savedComments) {
-      setComments(JSON.parse(savedComments))
-    }
-  }, [id])
-
-  // Save comments to localStorage whenever they change
-  useEffect(() => {
-    if (comments.length > 0) {
-      localStorage.setItem(`event-${id}-comments`, JSON.stringify(comments))
-    }
-  }, [comments, id])
-
-  const handleAddComment = () => {
-    if (!newComment.trim()) return
-
-    const comment: Comment = {
-      id: Date.now().toString(),
-      author: "Current User", // In a real app, this would be the logged-in user
-      content: newComment,
-      timestamp: new Date().toISOString(),
-      replies: []
-    }
-
-    setComments(prev => [comment, ...prev])
-    setNewComment('')
-  }
-
-  const handleAddReply = (parentCommentId: string) => {
-    if (!replyContent.trim()) return
-
-    const reply: Comment = {
-      id: Date.now().toString(),
-      author: "Current User", // In a real app, this would be the logged-in user
-      content: replyContent,
-      timestamp: new Date().toISOString(),
-      replies: []
-    }
-
-    setComments(prev => prev.map(comment => {
-      if (comment.id === parentCommentId) {
-        return {
-          ...comment,
-          replies: [...comment.replies, reply]
-        }
-      }
-      return comment
-    }))
-
-    setReplyingTo(null)
-    setReplyContent('')
-  }
-
-  const handleDeleteComment = (commentId: string) => {
-    setComments(prev => prev.filter(comment => comment.id !== commentId))
-  }
-
-  const CommentComponent = ({ comment, isReply = false }: { comment: Comment, isReply?: boolean }) => (
-    <Box
-      p={4}
-      bg={cardBg}
-      borderWidth="1px"
-      borderColor={borderColor}
-      borderRadius="lg"
-      width="100%"
-      ml={isReply ? 8 : 0}
-    >
-      <HStack spacing={4} mb={2} justify="space-between">
-        <HStack spacing={4}>
-          <Avatar size="sm" name={comment.author} />
-          <Text fontWeight="bold">{comment.author}</Text>
-          <Text fontSize="sm" color={textColor}>
-            {new Date(comment.timestamp).toLocaleDateString()}
-          </Text>
-        </HStack>
-        {!isReply && (
-          <Button
-            size="sm"
-            variant="ghost"
-            colorScheme="red"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDeleteComment(comment.id)
-            }}
-          >
-            Delete
-          </Button>
-        )}
-      </HStack>
-      <Text mb={4}>{comment.content}</Text>
-      {!isReply && (
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => setReplyingTo(comment.id)}
-          mb={replyingTo === comment.id ? 4 : 0}
-        >
-          Reply
-        </Button>
-      )}
-      {replyingTo === comment.id && (
-        <VStack spacing={4} align="stretch">
-          <Textarea
-            value={replyContent}
-            onChange={(e) => setReplyContent(e.target.value)}
-            placeholder="Write a reply..."
-            size="sm"
-          />
-          <HStack>
-            <Button size="sm" colorScheme="blue" onClick={() => handleAddReply(comment.id)}>
-              Post Reply
-            </Button>
-            <Button size="sm" variant="ghost" onClick={() => setReplyingTo(null)}>
-              Cancel
-            </Button>
-          </HStack>
-        </VStack>
-      )}
-      {comment.replies.length > 0 && (
-        <VStack spacing={4} mt={4} align="stretch">
-          {comment.replies.map(reply => (
-            <CommentComponent key={reply.id} comment={reply} isReply />
-          ))}
-        </VStack>
-      )}
-    </Box>
-  )
-
   if (!event) {
     return (
-      <Container maxW="container.lg" p={8}>
-        <Heading>Event not found</Heading>
-        <Button mt={4} onClick={() => navigate('/events')}>Back to Events</Button>
+      <Container maxW="container.xl" py={8}>
+        <Text>Event not found</Text>
       </Container>
     )
   }
 
-  const spotsLeft = event.maxAttendees ? event.maxAttendees - event.attendees : 'unlimited'
+  const maxAttendees = event.maxAttendees || 999
+  const spotsLeft = maxAttendees - event.currentAttendees
 
   return (
     <Container maxW="container.xl" p={8}>
-      <Button mb={4} onClick={() => navigate(-1)} leftIcon={<Icon as={FaCalendar} />}>
+      <Button mb={4} onClick={() => navigate(-1)} leftIcon={<Icon as={FaCalendarAlt} />}>
         Back to Events
       </Button>
 
@@ -265,7 +131,7 @@ const EventDetails = () => {
                   <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={6}>
                     <Box>
                       <HStack mb={4}>
-                        <Icon as={FaCalendar} color="blue.500" boxSize={5} />
+                        <Icon as={FaCalendarAlt} color="blue.500" boxSize={5} />
                         <Box>
                           <Text fontWeight="bold">Date and Time</Text>
                           <HStack spacing={2}>
@@ -364,25 +230,10 @@ const EventDetails = () => {
               </Box>
             )}
 
-            {/* Comments Section */}
+            {/* Event Feed Section */}
             <Box>
-              <Heading size="lg" mb={6}>Discussion</Heading>
-              <VStack spacing={6} align="stretch">
-                <Box>
-                  <Textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Share your thoughts or ask a question..."
-                    mb={4}
-                  />
-                  <Button colorScheme="blue" onClick={handleAddComment}>
-                    Post Comment
-                  </Button>
-                </Box>
-                {comments.map(comment => (
-                  <CommentComponent key={comment.id} comment={comment} />
-                ))}
-              </VStack>
+              <Heading size="lg" mb={6}>Event Activity</Heading>
+              <EventFeed eventId={event.id} eventTitle={event.title} />
             </Box>
           </VStack>
         </GridItem>
