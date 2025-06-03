@@ -26,7 +26,6 @@ import EventCard from './EventCard'
 import { isEventPast } from './events'
 import { allEvents } from './events'
 import { exploreGroups } from './ExploreGroups'
-import CreateEventButton from './CreateEventButton'
 
 interface Member {
   id: string;
@@ -404,13 +403,6 @@ const GroupDetails = () => {
 
       {/* Main Content */}
       <Container maxW="container.xl" py={8}>
-        {/* Create Event Button */}
-        <Box position="relative" mb={6}>
-          <Box position="absolute" top={0} right={0} zIndex={2}>
-            <CreateEventButton />
-          </Box>
-        </Box>
-        
         <HStack spacing={8} align="flex-start">
           {/* Left Column - Group Info */}
           <Box flex="2">
