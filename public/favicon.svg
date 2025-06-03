@@ -6,6 +6,8 @@
       <stop offset="100%" stop-color="#FFD500"/>
     </linearGradient>
   </defs>
-  <!-- Stylized 'S' -->
-  <path d="M25 35c0-6 4.5-11 10-11h30c5.5 0 10 5 10 11s-4.5 11-10 11H35c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5h30c5.5 0 10 5 10 11s-4.5 11-10 11H35c-5.5 0-10-5-10-11" fill="url(#socialGradient)" stroke="none"/>
+  <!-- Background circle for better visibility -->
+  <circle cx="50" cy="50" r="45" fill="white" stroke="none" opacity="0.1"/>
+  <!-- Stylized 'S' with better padding -->
+  <path d="M20 30c0-8 6-12 12-12h36c8 0 12 4 12 12s-4 12-12 12H32c-2 0-4 2-4 4s2 4 4 4h36c8 0 12 4 12 12s-4 12-12 12H32c-6 0-12-4-12-12" fill="url(#socialGradient)" stroke="none"/>
 </svg> 
